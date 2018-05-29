@@ -24,6 +24,6 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	}
 }
 
-//Scanner::create( '123e4567-e89b-12d3-a456-426655440003', $_SERVER['HTTP_CF_CONNECTING_IP'] );
+//Scanner::create( '123e4567-e89b-12d3-a456-426655440004', $_SERVER['HTTP_CF_CONNECTING_IP'] );
 
 RFID::addViewData('scanners', ScannerColl::getAllByName() );

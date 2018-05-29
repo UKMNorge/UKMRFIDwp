@@ -2,8 +2,8 @@
 	
 require_once(UKMRFID .'/models/orm.class.php');
 	
-class Group extends RFIDORM {
-	const TABLE_NAME = 'user_group';
+class Herd extends RFIDORM {
+	const TABLE_NAME = 'herd';
 	
 	var $name = null;
 	var $foreign_id = null;

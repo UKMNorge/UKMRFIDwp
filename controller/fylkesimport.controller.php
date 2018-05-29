@@ -9,8 +9,7 @@ $fylker = fylker::getAll();
 RFID::addViewData('fylker', $fylker );
 
 // Mønstringsdata for festivalen:
-$sesong = UKM_HOSTNAME=='ukm.dev' ? 2014 : stat_monstringer_v2::getSesong();
-$monstring = monstringer_v2::land($sesong);
+$monstring = monstringer_v2::land(get_site_option('season'));
 
 // Global personliste.
 $personListe = array();

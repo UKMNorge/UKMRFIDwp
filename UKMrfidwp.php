@@ -16,6 +16,7 @@ if(is_admin()) {
 	add_action('network_admin_menu', ['RFID','meny']);
 }
 
+define('UKMRFID', dirname(__FILE__));
 
 
 class RFID extends UKMmodul {
@@ -29,6 +30,8 @@ class RFID extends UKMmodul {
 	public static function init() {
 		self::setAction('home');
 		parent::init(null);
+		require_once( UKMRFID .'/class/postgres.class.php');
+		POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 	}
 	
 	/**

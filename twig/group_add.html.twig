@@ -1,29 +1,34 @@
-<h1>
-	<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
-	<a href="?page={{ GET('page') }}">RFID</a> / 
-	<a href="?page={{ GET('page') }}&action=groups">Grupper</a> /
-	Legg til ny
-</h1>
+{% extends "_layout.html.twig" %}
 
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		<a href="?page={{ GET('page') }}">RFID</a> / 
+		<a href="?page={{ GET('page') }}&action=groups">Grupper</a> /
+		Legg til ny
+	</h1>
+{% endblock %}
 
-<form action="?page={{ GET('page') }}&action=groups" method="POST">
-	<input type="hidden" name="action" value="add" />
-	<div class="form-group">
-		<label>Navn på gruppe</label>
-		<input class="form-control input-lg" type="text" name="name" />
-	</div>
-
-	<div class="form-group">
-		<label>Ekstern ID</label>
-		<input class="form-control" type="text" name="foreign" />
-		<p class="help text-muted">
-			Hvis gruppen er importert fra et annet system, kan du her oppgi en unik fremmednøkkel. F.eks.: <code>UKM-fylke-16</code>.
-			<br />
-			Maks 255 tegn.
-		</p>
-	</div>
+{% block content %}
+	<form action="?page={{ GET('page') }}&action=groups" method="POST">
+		<input type="hidden" name="action" value="add" />
+		<div class="form-group">
+			<label>Navn på gruppe</label>
+			<input class="form-control input-lg" type="text" name="name" />
+		</div>
 	
-	<div class="form-group">
-		<button type="submit" class="btn btn-success btn-lg">Opprett</button>
-	</div>
-</form>
+		<div class="form-group">
+			<label>Ekstern ID</label>
+			<input class="form-control" type="text" name="foreign" />
+			<p class="help text-muted">
+				Hvis gruppen er importert fra et annet system, kan du her oppgi en unik fremmednøkkel. F.eks.: <code>UKM-fylke-16</code>.
+				<br />
+				Maks 255 tegn.
+			</p>
+		</div>
+		
+		<div class="form-group">
+			<button type="submit" class="btn btn-success btn-lg">Opprett</button>
+		</div>
+	</form>
+{% endblock %}

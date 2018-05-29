@@ -67,4 +67,37 @@ abstract class RFIDORM {
 		$called_class = get_called_class();
 		return new $called_class( $object_id );
 	}
+	
+	public function _update( $mapped_values ) {
+		$query = 'UPDATE '. self::getTableName() .' SET (';
+
+		// KEYS
+		$count = 1;
+		foreach( $mapped_values as $key => $val ) {
+			$count++;
+			$query .= $key;
+			if( $count < sizeof( $mapped_values )+1 ) {
+				$query .= ', ';
+			}
+		}
+		$query .= ')';
+		
+		// VALUES
+		$query .= ' = (';
+		$values = [ $this->getId() ];
+		$count = 1;
+		foreach( $mapped_values as $key => $val ) {
+			$count++;
+			$query .= '$'. $count;
+			if( $count < sizeof( $mapped_values )+1 ) {
+				$query .= ', ';
+			}
+			$values[] = $val;
+		}
+		$query .= ')
+		WHERE id = $1';
+		
+		$result = POSTGRES::update( $query, $values );
+	}
+
 }

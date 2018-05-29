@@ -3,6 +3,14 @@
 	
 abstract class RFIDColl {
 
+	public static function getById( $id ) {
+		$child = get_called_class();
+		$row = POSTGRES::getRow("SELECT * FROM ". $child::TABLE_NAME ." WHERE id=$1", [$id]);
+		
+		$object_class = str_replace('Coll', '', $child);
+		return new $object_class( $row );
+	}
+
 	public static function getAllByName() {
 		$child = get_called_class();
 		if( $child::$models == null ) {
@@ -11,7 +19,12 @@ abstract class RFIDColl {
 		
 		$sorted = [];
 		foreach( $child::$models as $model ) {
-			$sorted[ $model->getName() ] = $model;
+			#$sortName = isset( $sorted[ $model->getName() ] ) 
+			#	? $model->getName().' '.$model->getId() 
+			#	: $model->getName()
+			#; 
+			#$sorted[ $sortName ] = $model;
+			$sorted[ $model->getName().' '.$model->getId() ] = $model;
 		}
 		ksort( $sorted );
 		return $sorted;

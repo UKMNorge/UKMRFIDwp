@@ -1,37 +1,40 @@
-<h1>
-	<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
-	<a href="?page={{ GET('page') }}">RFID</a> / 
-	Grupper
-</h1>
+{% extends "_layout.html.twig" %}
 
-{% for message in UKMmodul_messages %}
-	<div class="alert alert-{{ message.level }}">{{ message.message }}</div>
-{% endfor %}
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		<a href="?page={{ GET('page') }}">RFID</a> / 
+		Grupper
+	</h1>
 
-<p class="">
-	<a href="?page={{ GET('page') }}&action=group_add" class="btn btn-mini btn-xs btn-success">Legg til ny gruppe</a>
-</p>
+	<p class="">
+		<a href="?page={{ GET('page') }}&action=group_add" class="btn btn-mini btn-xs btn-success">Legg til ny gruppe</a>
+	</p>
+{% endblock %}
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Gruppe</th>
-			<th>Personer</th>
-			<th>Ekstern-ID</th>
-		</tr>
-	</thead>
-	
-	<tbody>
-		{% for group in groups %}
+
+{% block content %}
+	<table class="table table-striped">
+		<thead>
 			<tr>
-				<td>{{ group.getName() }}</td>
-				<td></td>
-				<td class="small">{{ group.getForeignId() }}</td>
+				<th>Gruppe</th>
+				<th>Personer</th>
+				<th>Ekstern-ID</th>
 			</tr>
-		{% else %}
-			<tr>
-				<td colspan="3">Ingen registrerte grupper</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
+		</thead>
+		
+		<tbody>
+			{% for group in groups %}
+				<tr>
+					<td>{{ group.getName() }}</td>
+					<td></td>
+					<td class="small">{{ group.getForeignId() }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">Ingen registrerte grupper</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

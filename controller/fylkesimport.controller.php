@@ -42,4 +42,7 @@ $gruppe2 = new stdClass();
 $gruppe2->id = 2;
 $gruppe2->navn = "Test2";
 
-RFID::addViewData('grupper', array($gruppe, $gruppe2));
+require_once(UKMRFID .'/models/group.collection.php');
+$grupper = GroupColl::GetAllByName();
+
+RFID::addViewData('grupper', $grupper);

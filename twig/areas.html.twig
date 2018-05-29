@@ -4,6 +4,10 @@
 	Områder
 </h1>
 
+{% for message in UKMmodul_messages %}
+	<div class="alert alert-{{ message.level }}">{{ message.message }}</div>
+{% endfor %}
+
 <p class="">
 	<a href="?page={{ GET('page') }}&action=area_add" class="btn btn-mini btn-xs btn-success">Legg til nytt område</a>
 </p>

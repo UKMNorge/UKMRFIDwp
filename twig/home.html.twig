@@ -6,7 +6,7 @@
 <h3>
 	Områder
 	<small>
-		<a href="?page={{ GET('page') }}&action=area">administrer</a>
+		<a href="?page={{ GET('page') }}&action=areas">administrer</a>
 	</small>
 </h3>
 <table class="table table-striped">
@@ -36,7 +36,7 @@
 <h3>
 	Scannere
 	<small>
-		<a href="?page={{ GET('page') }}&action=scanners">administrer</a>
+		<a href="?page={{ GET('page') }}&action=scanner">administrer</a>
 	</small>
 </h3>
 <table class="table table-striped">
@@ -75,4 +75,14 @@
 </h3>
 <p>
 	0 personer registrert i systemet
+</p>
+
+<h3>
+	Grupper
+	<small>
+		<a href="?page={{ GET('page') }}&action=groups">administrer</a>
+	</small>
+</h3>
+<p>
+	{{ groupCount }} grupper registrert i systemet
 </p>

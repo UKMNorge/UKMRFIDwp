@@ -2,15 +2,15 @@
 	
 require_once(UKMRFID .'/models/orm.class.php');
 	
-class Area extends RFIDORM {
-	const TABLE_NAME = 'area';
+class Group extends RFIDORM {
+	const TABLE_NAME = 'user_group';
 	
 	var $name = null;
-	var $capacity = null;
+	var $foreign_id = null;
 	
 	public function populate( $row ) {
 		$this->setName( $row['name'] );
-		$this->setCapacity( $row['capacity'] );
+		$this->setForeignId( $row['foreign_id'] );
 	}
 	
 	public function setName( $name ) {
@@ -21,19 +21,19 @@ class Area extends RFIDORM {
 		return $this->name;
 	}
 	
-	public function setCapacity( $capacity ) {
-		$this->capacity = $capacity;
+	public function setForeignId( $foreign_id ) {
+		$this->foreign_id = $foreign_id;
 		return $this;
 	}
-	public function getCapacity() {
-		return $this->capacity;
+	public function getForeignId() {
+		return $this->foreign_id;
 	}
 	
 	
-	public static function create( $name, $capacity ) {
+	public static function create( $name, $foreign_id ) {
 		$object = self::_create( [
 			'name' => $name,
-			'capacity' => $capacity,
+			'foreign_id' => $foreign_id,
 			]
 		);
 		return $object;

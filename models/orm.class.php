@@ -16,8 +16,13 @@ abstract class RFIDORM {
 		$this->populate( $id_or_row );
 	}
 	
+	public static function getTableName() {
+		$called_class = get_called_class();
+		return $called_class::TABLE_NAME;
+	}
+	
 	public static function getRowFromDb( $id ) {
-		return POSTGRES::getRow("SELECT * FROM ". self::TABLE_NAME ." WHERE id=". $id);
+		return POSTGRES::getRow("SELECT * FROM ". self::getTableName()." WHERE id=". $id);
 	}
 	
 	
@@ -27,5 +32,39 @@ abstract class RFIDORM {
 	}
 	public function getId() {
 		return $this->id;
+	}
+	
+	public static function _create( $mapped_values ) {
+		$query = 'INSERT INTO '. self::getTableName() .' (';
+
+		// KEYS
+		$count = 0;
+		foreach( $mapped_values as $key => $val ) {
+			$count++;
+			$query .= $key;
+			if( $count < sizeof( $mapped_values ) ) {
+				$query .= ', ';
+			}
+		}
+		$query .= ')';
+		
+		// VALUES
+		$query .= ' VALUES (';
+		$values = [];
+		$count = 0;
+		foreach( $mapped_values as $key => $val ) {
+			$count++;
+			$query .= '$'. $count;
+			if( $count < sizeof( $mapped_values ) ) {
+				$query .= ', ';
+			}
+			$values[] = $val;
+		}
+		$query .= ')';
+		
+		$object_id = POSTGRES::insert( $query, $values );
+		
+		$called_class = get_called_class();
+		return new $called_class( $object_id );
 	}
 }

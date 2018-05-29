@@ -33,6 +33,20 @@ class POSTGRES {
 	public static function prepare( $query, $vars ) {
 		
 	}
+	
+	public static function insert( $query, $values ) {
+		$result = @pg_query_params( self::$connection, $query, $values );
+		
+		if( !$result ) {
+			$error = pg_last_error( self::$connection );
+			
+			if( strpos( $error, 'ERROR: duplicate key' ) === 0 ) {
+				throw new Exception( $error, 1 );
+			}
+			throw new Exception( $error, 0 );
+		}
+		return pg_last_oid( $result );
+	}
 }
 
 /**

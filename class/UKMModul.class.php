@@ -11,6 +11,24 @@ if( !class_exists('UKMmodul') ) {
 				self::setAction( $_GET['action'] );
 			}
 		}
+		
+		public static function addMessage( $level, $message ) {
+			$_SESSION['UKMmodul_messages'][] = [
+				'level' => $level, 
+				'message' => $message,
+			];
+		}
+		
+		public static function getMessages() {
+			$messages = [];
+			if( is_array( $_SESSION['UKMmodul_messages'] ) ) {
+				foreach( $_SESSION['UKMmodul_messages'] as $message ) {
+					$messages[] = $message;
+					unset( $_SESSION['UKMmodul_messages'] );
+				}
+			}
+			return $messages;
+		}
 	
 		/**
 		 * Hent hvilken viewAction som er aktive
@@ -31,6 +49,7 @@ if( !class_exists('UKMmodul') ) {
 		 * @return array
 		**/
 		public static function getViewData() {
+			self::$view_data['UKMmodul_messages'] = self::getMessages();
 			return self::$view_data;
 		}
 	

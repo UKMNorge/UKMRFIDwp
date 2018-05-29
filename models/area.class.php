@@ -28,4 +28,18 @@ class Area extends RFIDORM {
 	public function getCapacity() {
 		return $this->capacity;
 	}
+	
+	public function __toString() {
+		return $this->getName();
+	}
+	
+	
+	public static function create( $name, $capacity ) {
+		$object = self::_create( [
+			'name' => $name,
+			'capacity' => $capacity,
+			]
+		);
+		return $object;
+	}
 }

@@ -1,87 +1,107 @@
-<h1>
-	<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
-	RFID
-</h1>
+{% extends "_layout.html.twig" %}
 
-<h3>
-	Områder
-	<small>
-		<a href="?page={{ GET('page') }}&action=area">administrer</a>
-	</small>
-</h3>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Område</th>
-			<th>Personer</th>
-			<th>Scannere</th>
-		</tr>
-	</thead>
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		RFID
+	</h1>
+{% endblock %}
+
+
+{% block content %}
+	<h3>
+		Områder
+		<small>
+			<a href="?page={{ GET('page') }}&action=areas">administrer</a>
+		</small>
+	</h3>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Område</th>
+				<th>Personer</th>
+				<th>Scannere</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for area in areas %}
+				<tr>
+					<td>{{ area.getName() }}</td>
+					<td>{{ area.getCount() }}</td>
+					<td>{{ area.getScanners()|length }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">Ingen områder aktive</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 	
-	<tbody>
-		{% for area in areas %}
+	<h3>
+		Scannere
+		<small>
+			<a href="?page={{ GET('page') }}&action=scanners">administrer</a>
+		</small>
+	</h3>
+	<table class="table table-striped">
+		<thead>
 			<tr>
-				<td>{{ area.getName() }}</td>
-				<td>{{ area.getCount() }}</td>
-				<td>{{ area.getScanners()|length }}</td>
+				<th>Navn</th>
+				<th>Område</th>
+				<th>Retning</th>
 			</tr>
-		{% else %}
-			<tr>
-				<td colspan="3">Ingen områder aktive</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
-
-<h3>
-	Scannere
-	<small>
-		<a href="?page={{ GET('page') }}&action=scanners">administrer</a>
-	</small>
-</h3>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Navn</th>
-			<th>Retning</th>
-		</tr>
-	</thead>
-
-	<tbody>	
-		{% for scanner in scanners %}
-			<tr>
-				<td>
-					{{ scanner.getName() }}
-					<br />
-					{{ scanner.getUID() }}
-				</td>
-				<td>
-					{{ scanner.getDirection() }}
-				</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="2">Ingen scannere aktive</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
-
-<h3>
-	Personer
-	<small>
-		<a href="?page={{ GET('page') }}&action=users">administrer</a>
-	</small>
-</h3>
-<p>
-	0 personer registrert i systemet
-</p>
-
-<h3>
+		</thead>
+	
+		<tbody>	
+			{% for scanner in scanners %}
+				<tr>
+					<td>
+						{{ scanner.getName() }}
+						<br />
+						<small>
+							{{ scanner.getGUID() }}
+						</small>
+					</td>
+					<td>
+						{{ scanner.getArea() }}
+					</td>
+					<td>
+						{{ scanner.getDirection() }}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="2">Ingen scannere aktive</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	<h3>
+		Personer
+		<small>
+			<a href="?page={{ GET('page') }}&action=users">administrer</a>
+		</small>
+	</h3>
+	<p>
+		0 personer registrert i systemet
+	</p>
+	
+	<h4>
 	Registrer RFID-kort på personer
-	{# <small>
-		<a href="?page={{ GET('page') }}&action=users">administrer</a>
-	</small> #}
-</h3>
-<a href="?page={{ GET('page') }}&action=fylkesimport" class="btn btn-info btn-large">Importer fra fylker</a>
-<a href="" class="btn btn-info btn-large">Importer fra Excel</a>
+	</h4>
+	<a href="?page={{ GET('page') }}&action=fylkesimport" class="btn btn-info btn-large">Importer fra fylker</a>
+	<a href="" class="btn btn-info btn-large">Importer fra Excel</a>
+
+	<h3>
+		Grupper
+		<small>
+			<a href="?page={{ GET('page') }}&action=groups">administrer</a>
+		</small>
+	</h3>
+	<p>
+		{{ groupCount }} grupper registrert i systemet
+	</p>
+{% endblock %}

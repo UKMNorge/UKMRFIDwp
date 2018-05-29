@@ -1,4 +1,7 @@
 <?php
+
+namespace UKMNorge\RFID;
+use Exception;
 	
 class POSTGRES {
 	private static $connection = null;
@@ -45,6 +48,9 @@ class POSTGRES {
 	}
 	
 	private static function _query( $query, $parameters ) {
+		if( null == self::$connection ) {
+			throw new Exception('POSTGRES not connected. Please run connect');
+		}
 		$result = @pg_query_params( self::$connection, $query, $parameters );
 		
 		if( !$result ) {

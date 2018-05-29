@@ -1,12 +1,18 @@
 <?php
 
+namespace UKMNorge\RFID;
+
+use fylker;
+use monstringer_v2;
+use stdClass;
+
 // Generer lister med fylker
 require_once("UKM/fylker.class.php");
 require_once("UKM/monstringer.class.php");
 
 
 $fylker = fylker::getAll();
-RFID::addViewData('fylker', $fylker );
+\UKMRFID::addViewData('fylker', $fylker );
 
 // Mønstringsdata for festivalen:
 $monstring = monstringer_v2::land(get_site_option('season'));
@@ -20,9 +26,9 @@ foreach($fylker as $fylke) {
 		$personer = $inn->getPersoner();
 		foreach ($personer->personer as $person) {
 			if( ! in_array($person, $personListe) ) {
-				// TODO: Add gruppe og RFID-verdi til bruker-objekt om vi har de.
-				$person->gruppe = new stdClass();
-				$person->gruppe->id = 2;
+				// TODO: Sjekk personens lagrede gruppe (krever postgres-spørring!)
+
+				// TODO: Oppdater personens lagrede RFID.
 
 				$personListe[$fylke->id][] = $person;
 			}
@@ -30,8 +36,8 @@ foreach($fylker as $fylke) {
 	}
 }
 
-RFID::addViewData('personListe', $personListe);
-RFID::addViewData('monstring', $monstring);
+\UKMRFID::addViewData('personListe', $personListe);
+\UKMRFID::addViewData('monstring', $monstring);
 
 // TODO: Finn grupper med API
 $gruppe = new stdClass();
@@ -42,7 +48,7 @@ $gruppe2 = new stdClass();
 $gruppe2->id = 2;
 $gruppe2->navn = "Test2";
 
-require_once(UKMRFID .'/models/group.collection.php');
-$grupper = GroupColl::GetAllByName();
+require_once(UKMRFID .'/models/herd.collection.php');
+$herds = HerdColl::GetAllByName();
 
-RFID::addViewData('grupper', $grupper);
+\UKMRFID::addViewData('herds', $herds);

@@ -1,4 +1,6 @@
 <?php
+
+namespace UKMNorge\RFID;
 	
 require_once(UKMRFID .'/models/orm.class.php');
 	

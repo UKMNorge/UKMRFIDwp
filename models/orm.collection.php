@@ -1,5 +1,6 @@
 <?php
-	
+
+namespace UKMNorge\RFID;	
 	
 abstract class RFIDColl {
 

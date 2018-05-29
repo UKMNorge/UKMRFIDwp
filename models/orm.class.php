@@ -1,5 +1,9 @@
 <?php
 	
+namespace UKMNorge\RFID;
+
+require_once(UKMRFID .'/class/postgres.class.php');
+
 abstract class RFIDORM {
 	
 	var $id = null;

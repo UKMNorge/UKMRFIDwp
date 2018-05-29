@@ -8,20 +8,22 @@ Version: 0.1
 Author URI: http://ukm-norge.no
 */
 
+use UKMNorge\RFID\POSTGRES;
+
 if( !class_exists('UKMModul') ) {
 	require_once('class/UKMModul.class.php');
 }
 
 if(is_admin()) {
-	add_action('network_admin_menu', ['RFID','meny']);
+	add_action('network_admin_menu', ['UKMRFID','meny']);
 
-	add_action('wp_ajax_RFID_ajax', ['RFID', 'ajax']);
+	add_action('wp_ajax_RFID_ajax', ['UKMRFID', 'ajax']);
 }
 
 define('UKMRFID', dirname(__FILE__));
 
 
-class RFID extends UKMmodul {
+class UKMRFID extends UKMmodul {
 	public static $monstring = null;
 	public static $til = null;
 	
@@ -68,7 +70,7 @@ class RFID extends UKMmodul {
 			'RFID',
 			'administrator', 
 			'RFID',
-			['RFID','admin'],
+			['UKMRFID','admin'],
 			'/wp-content/plugins/UKMRFIDwp/img/id-menu.png',
 			20
 		);

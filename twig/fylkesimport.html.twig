@@ -27,7 +27,7 @@
 				<ul id="fylke-{{ fylke.id }}" class="list-group">
 					{% for person in personListe[fylke.id] %}
 						<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
-						data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-gruppeid="{{ person.gruppe.id }}" data-gruppenavn="{{ person.gruppe.navn }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
+						data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
 							{{ person.navn() }}
 						</li>
 					{% else %}
@@ -47,11 +47,12 @@
 		<label>Mobil</label>
 		<input type="text" class="form-control" name="number" id="personMobil">
 		<label>Gruppe</label>
-		<select class="form-control" name="personGruppe" id="personGruppe">
-			{% for gruppe in grupper %}
-				<option value="{{ gruppe.id }}">{{ gruppe.navn }}</option>
+		<select class="form-control" name="personherd" id="personherd">
+			{% for herd in herds %}
+				<option value="{{ herd.getId() }}" data-herd-foreign-id="{{ herd.getForeignId() }}">{{ herd.getName() }}</option>
 			{% endfor %}
 		</select>
+		<label class="label label-warning">OBS: Om det er endring av RFID må du manuelt kontrollere herdn</label>
 		<label>RFID</label>
 		<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
 		<p class="lead">Info lagres når du scanner ID-kortet.</p>
@@ -83,17 +84,17 @@ jQuery("#UpdateUserForm").keyup(function(e) {
 		var personFornavn = jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
-		var gruppeid = jQuery('#personGruppe').val();
+		var herdid = jQuery('#personherd').val();
 		var rfidValue = jQuery("#rfidValue").val();
 		
 		var postData = {
 				'action': 'RFID_ajax',
 				'subaction': 'registerPerson',
-				'ukm-person-id': ukm_person_id,
+				'foreignId': "UKM-person-"+ukm_person_id,
 				'personFornavn': personFornavn,
 				'personEtternavn': personEtternavn,
 				'personMobil': personMobil,
-				'gruppeid': gruppeid,
+				'herd': herdid,
 				'rfidValue': rfidValue
 			};
 		
@@ -112,7 +113,6 @@ jQuery("#UpdateUserForm").keyup(function(e) {
 
 // Move data to fields, set bg-color
 function selectUser(e) {
-
 	// Fjern bakgrunnsfarge kun på element som ikke har RFID-verdi lagret.
 	jQuery(e).
 		parent("ul").
@@ -127,9 +127,18 @@ function selectUser(e) {
 	jQuery("#personFornavn").val(jQuery(e).attr('data-person-fornavn'));
 	jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
 	jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
-	jQuery("#personGruppe").val(jQuery(e).attr('data-gruppeid'));
+	// Hvis personen har definert grupppe, bruk den, ellers velg gruppe basert på fylket.
+	if("" != jQuery(e).attr('data-herdid') && null != jQuery(e).attr('data-herdid') ) {
+		jQuery("#personherd").val(jQuery(e).attr('data-herdid'));
+	} else {
+		jQuery("#personherd option").each( function(){
+			if( jQuery( this ).attr('data-herd-foreign-id') == 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val() ) {
+				jQuery(this).prop('selected','selected');
+			}
+		});
+	}
+	
 	jQuery("#rfidValue").val(jQuery(e).attr('data-rfid'));
-
 	jQuery("#rfidValue").focus();
 
 }
@@ -140,7 +149,7 @@ function resetFields(current) {
 	jQuery("#personFornavn").val("");
 	jQuery("#personEtternavn").val("");
 	jQuery("#personMobil").val("");
-	jQuery("#personGruppe").val("");
+	jQuery("#personherd").val("");
 	jQuery("#rfidValue").val("");
 
 	jQuery(current).next().click();
@@ -148,6 +157,7 @@ function resetFields(current) {
 
 // Bruker oppdatert rett
 function updatedUser(response) {
+	console.log(response);
 	if(response.success) {
 		console.log("Saved user data");
 		// Finn brukerens felt.
@@ -155,6 +165,11 @@ function updatedUser(response) {
 		jQuery(userField).attr('data-rfid', response.rfid);
 		// Sett grønn farge ved lagring OK.
 		jQuery(userField).css("background-color", "#28a745!important");	
+	} else if (false == response.success) {
+		alert("Feil! \n" + response.message);
+	}
+	else {
+		alert("En ukjent feil oppsto!");
 	}
 }
 

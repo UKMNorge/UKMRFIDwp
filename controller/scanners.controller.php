@@ -1,4 +1,8 @@
 <?php
+
+namespace UKMNorge\RFID;
+use Exception;
+
 require_once(UKMRFID .'/models/scanner.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
@@ -17,13 +21,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		}
 	} catch( Exception $e ) {
 		if( $e->getCode() == 1 ) {
-			RFID::addMessage('error', 'Scanneren finnes allerede!');
+			\UKMRFID::addMessage('error', 'Scanneren finnes allerede!');
 		} else {
-			RFID::addMessage('error', $e->getMessage());
+			\UKMRFID::addMessage('error', $e->getMessage());
 		}
 	}
 }
 
 //Scanner::create( '123e4567-e89b-12d3-a456-426655440004', $_SERVER['HTTP_CF_CONNECTING_IP'] );
 
-RFID::addViewData('scanners', ScannerColl::getAllByName() );
+\UKMRFID::addViewData('scanners', ScannerColl::getAllByName() );

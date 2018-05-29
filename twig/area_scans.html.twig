@@ -1,0 +1,39 @@
+{% extends "_layout.html.twig" %}
+
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		<a href="?page={{ GET('page') }}">RFID</a> / 
+		{{ area.getName() }}
+	</h1>
+	
+	<h3>Alle bevegelser inn og ut av området</h3>
+{% endblock %}
+
+{% block content %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Tidspunkt</th>
+				<th>Retning</th>
+				<th>Person</th>
+				<th>Scanner</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for scan in scans %}
+				<tr class="text-{{ scan.getDirection() == 'in' ? 'success' : 'error' }}">
+					<td>{{ scan.getTimestamp()|date('d.m.Y H:i:s') }}</td>
+					<td>{{ scan.getDirection() == 'in' ? 'Inn' : 'Ut' }}</td>
+					<td>N/A</td>
+					<td>N/A</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">Ingen bevegelser inn eller ut av {{ area.getName() }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

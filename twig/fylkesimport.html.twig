@@ -1,0 +1,155 @@
+<h1>
+	<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+	<a href="?page={{ GET('page') }}">RFID</a> / 
+	Import av brukerdata
+</h1>
+
+<h4>Bruksanvisning</h4>
+<p>
+	Velg fylke du vil registrere brukere fra, og trykk på en bruker. Info fylles ut automatisk til høyre, og RFID-feltet blir valgt. Bip deretter ID-brikken over scanneren. Data lagres automatisk, og neste deltaker i listen blir valgt.
+</p>
+<p>
+	Deltakeren du jobber med blir blå - de som allerede har en lagret RFID er grønne.
+</p>
+<div class="col-xs-6">
+		<label>Velg fylke i listen</label>
+		<p class="">
+			<select id="fylkevelger" class="form-control">
+				<option value="" selected="true" disabled>Velg fylke</option>
+				{% for fylke in fylker %}
+					<option value="{{ fylke.id }}">{{ fylke.navn }}</option>
+				{% endfor %}
+				{# TODO: Legg til ledere også? #}
+			</select>
+		</p>
+		<div id="fylkeslister">
+			{% for fylke in fylker %}
+				<ul id="fylke-{{ fylke.id }}" class="list-group">
+					{% for person in personListe[fylke.id] %}
+						<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-personnavn="{{ person.navn }}" data-mobil="{{ person.mobil }}" data-gruppeid="{{ person.gruppe.id }}" data-gruppenavn="{{ person.gruppe.navn }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
+							{{ person.navn() }}
+						</li>
+					{% else %}
+						<p class="lead">Ingen personer fra {{ fylke.navn }}</p>
+					{% endfor %}
+				</ul>
+			{% endfor %}
+		</div>
+	</div>
+<div class="col-xs-6">
+	<form id="UpdateUserForm">
+		<label>Navn</label>
+		<input type="hidden" name="person_id" id="person_id">
+		<input type="text" class="form-control" name="name" id="personNavn">
+		<label>Mobil</label>
+		<input type="text" class="form-control" name="number" id="personMobil">
+		<label>Gruppe</label>
+		<select class="form-control" name="personGruppe" id="personGruppe">
+			{% for gruppe in grupper %}
+				<option value="{{ gruppe.id }}">{{ gruppe.navn }}</option>
+			{% endfor %}
+		</select>
+		<label>RFID</label>
+		<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
+		<p class="lead">Info lagres når du scanner ID-kortet.</p>
+	</form>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('#fylkeslister').children().hide();
+
+	jQuery("#fylkevelger").change(function(e) {
+		jQuery('#fylkeslister').children().hide();
+		jQuery("#fylke-"+e.target.value).show();
+	});
+});
+
+// Klikk på en bruker
+jQuery(".personElement").click(function(e) {
+	selectUser(e.target);	
+});
+
+jQuery("#UpdateUserForm").keyup(function(e) {
+	// Submit funker ikke uten submit-knapp, så vi gjør det manuelt.
+	if(e.keyCode == 13) {
+		e.preventDefault();
+
+		// Send brukerinfo
+		var person_id = jQuery("#person_id").val();
+		var personNavn = jQuery("#personNavn").val();
+		var personMobil = jQuery("#personMobil").val();
+		var gruppeid = jQuery('#personGruppe').val();
+		var rfidValue = jQuery("#rfidValue").val();
+		
+		var postData = {
+				'action': 'RFID_ajax',
+				'subaction': 'registerPerson',
+				'person_id': person_id,
+				'personNavn': personNavn,
+				'personMobil': personMobil,
+				'gruppeid': gruppeid,
+				'rfidValue': rfidValue
+			};
+		
+		jQuery.post(
+			ajaxurl,
+			postData, 
+			function(response) {
+				updatedUser(response);
+			},
+			"json"
+		);
+
+		resetFields('#person-'+jQuery("#person_id").val());
+	}
+});
+
+// Move data to fields, set bg-color
+function selectUser(e) {
+
+	// Fjern bakgrunnsfarge kun på element som ikke har RFID-verdi lagret.
+	jQuery(e).
+		parent("ul").
+		children().
+		filter(function (index){
+			return "" == jQuery(this).attr('data-rfid');
+		}).
+		css("background-color", "");
+	jQuery(e).css("background-color", "#17a2b8!important");
+
+	jQuery("#person_id").val(jQuery(e).attr('data-person-id'));
+	jQuery("#personNavn").val(jQuery(e).attr('data-personnavn'));
+	jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
+	jQuery("#personGruppe").val(jQuery(e).attr('data-gruppeid'));
+	jQuery("#rfidValue").val(jQuery(e).attr('data-rfid'));
+
+	jQuery("#rfidValue").focus();
+
+}
+
+// Resett feltene, velg neste
+function resetFields(current) {
+	jQuery("#person_id").val("");
+	jQuery("#personNavn").val("");
+	jQuery("#personMobil").val("");
+	jQuery("#personGruppe").val("");
+	jQuery("#rfidValue").val("");
+
+	jQuery(current).next().click();
+}
+
+// Bruker oppdatert rett
+function updatedUser(response) {
+	if(response.success) {
+		console.log("Saved user data");
+		// Finn brukerens felt.
+		var userField = "#person-"+response.person_id;
+		jQuery(userField).attr('data-rfid', response.rfid);
+		// Sett grønn farge ved lagring OK.
+		jQuery(userField).css("background-color", "#28a745!important");	
+	}
+}
+
+</script>
+

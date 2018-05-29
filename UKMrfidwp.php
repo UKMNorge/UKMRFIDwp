@@ -14,6 +14,8 @@ if( !class_exists('UKMModul') ) {
 
 if(is_admin()) {
 	add_action('network_admin_menu', ['RFID','meny']);
+
+	add_action('wp_ajax_RFID_ajax', ['RFID', 'ajax']);
 }
 
 define('UKMRFID', dirname(__FILE__));
@@ -76,5 +78,29 @@ class RFID extends UKMmodul {
 		);
 	}
 	
-
+	public static function ajax() {
+		if( is_array( $_POST ) ) {
+			self::addResponseData('POST', $_POST );
+		}
+		
+		try {
+			$supported_actions = [
+				'registerPerson',
+			];
+			
+			if( in_array( $_POST['subaction'], $supported_actions ) ) {
+				require_once('ajax/'. $_POST['subaction'] .'.ajax.php');
+			} else {
+				throw new Exception('Beklager, støtter ikke denne handlingen!');
+			}
+		} catch( Exception $e ) {
+			self::addResponseData('success', false);
+			self::addResponseData('message', $e->getMessage() );
+			self::addResponseData('code', $e->getCode() );
+		}
+		
+		$data = json_encode( self::getResponseData() );
+		echo $data;
+		die();
+	}
 }

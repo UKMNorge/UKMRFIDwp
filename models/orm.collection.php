@@ -19,11 +19,6 @@ abstract class RFIDColl {
 		
 		$sorted = [];
 		foreach( $child::$models as $model ) {
-			#$sortName = isset( $sorted[ $model->getName() ] ) 
-			#	? $model->getName().' '.$model->getId() 
-			#	: $model->getName()
-			#; 
-			#$sorted[ $sortName ] = $model;
 			$sorted[ $model->getName().' '.$model->getId() ] = $model;
 		}
 		ksort( $sorted );

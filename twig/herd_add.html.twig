@@ -4,13 +4,13 @@
 	<h1>
 		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
 		<a href="?page={{ GET('page') }}">RFID</a> / 
-		<a href="?page={{ GET('page') }}&action=groups">Grupper</a> /
+		<a href="?page={{ GET('page') }}&action=herds">Grupper</a> /
 		Legg til ny
 	</h1>
 {% endblock %}
 
 {% block content %}
-	<form action="?page={{ GET('page') }}&action=groups" method="POST">
+	<form action="?page={{ GET('page') }}&action=herds" method="POST">
 		<input type="hidden" name="action" value="add" />
 		<div class="form-group">
 			<label>Navn på gruppe</label>

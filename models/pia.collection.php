@@ -3,14 +3,14 @@
 namespace UKMNorge\RFID;
 
 require_once(UKMRFID .'/models/orm.collection.php');
-require_once(UKMRFID .'/models/scan.class.php');
+require_once(UKMRFID .'/models/pia.class.php');
 	
-class ScanColl extends RFIDColl {
-	const TABLE_NAME = Scan::TABLE_NAME;
+class PiAColl extends RFIDColl {
+	const TABLE_NAME = PiA::TABLE_NAME;
 	public static $models = null;
-	
+		
 	public function getAllByArea( $id ) {
-		self::load('area', $id);
+		self::load('area_id', $id);
 		return self::$models;
 	}
 	

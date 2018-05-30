@@ -1,177 +1,184 @@
-<h1>
-	<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
-	<a href="?page={{ GET('page') }}">RFID</a> / 
-	Import av brukerdata
-</h1>
+{% extends "_layout.html.twig" %}
 
-<h4>Bruksanvisning</h4>
-<p>
-	Velg fylke du vil registrere brukere fra, og trykk på en bruker. Info fylles ut automatisk til høyre, og RFID-feltet blir valgt. Bip deretter ID-brikken over scanneren. Data lagres automatisk, og neste deltaker i listen blir valgt.
-</p>
-<p>
-	Deltakeren du jobber med blir blå - de som allerede har en lagret RFID er grønne.
-</p>
-<div class="col-xs-6">
-		<label>Velg fylke i listen</label>
-		<p class="">
-			<select id="fylkevelger" class="form-control">
-				<option value="" selected="true" disabled>Velg fylke</option>
-				{% for fylke in fylker %}
-					<option value="{{ fylke.id }}">{{ fylke.navn }}</option>
-				{% endfor %}
-				{# TODO: Legg til ledere også? #}
-			</select>
-		</p>
-		<div id="fylkeslister">
-			{% for fylke in fylker %}
-				<ul id="fylke-{{ fylke.id }}" class="list-group">
-					{% for person in personListe[fylke.id] %}
-						<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
-						data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
-							{{ person.navn() }}
-						</li>
-					{% else %}
-						<p class="lead">Ingen personer fra {{ fylke.navn }}</p>
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		<a href="?page=RFID">RFID</a> / 
+			Import av brukerdata
+
+	</h1>
+{% endblock %}
+
+
+{% block content %}
+	<h4>Bruksanvisning</h4>
+	<p>
+		Velg fylke du vil registrere brukere fra, og trykk på en bruker. Info fylles ut automatisk til høyre, og RFID-feltet blir valgt. Bip deretter ID-brikken over scanneren. Data lagres automatisk, og neste deltaker i listen blir valgt.
+	</p>
+	<p>
+		Deltakeren du jobber med blir blå - de som allerede har en lagret RFID er grønne.
+	</p>
+	<div class="col-xs-6">
+			<label>Velg fylke i listen</label>
+			<p class="">
+				<select id="fylkevelger" class="form-control">
+					<option value="" selected="true" disabled>Velg fylke</option>
+					{% for fylke in fylker %}
+						<option value="{{ fylke.id }}">{{ fylke.navn }}</option>
 					{% endfor %}
-				</ul>
-			{% endfor %}
+					{# TODO: Legg til ledere også? #}
+				</select>
+			</p>
+			<div id="fylkeslister">
+				{% for fylke in fylker %}
+					<ul id="fylke-{{ fylke.id }}" class="list-group">
+						{% for person in personListe[fylke.id] %}
+							<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
+							data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
+								{{ person.navn() }}
+							</li>
+						{% else %}
+							<p class="lead">Ingen personer fra {{ fylke.navn }}</p>
+						{% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
 		</div>
+	<div class="col-xs-6">
+		<form id="UpdateUserForm">
+			<label>Fornavn</label>
+			<input type="hidden" name="ukm-person-id" id="ukm-person-id">
+			<input type="text" class="form-control" name="firstname" id="personFornavn">
+			<label>Etternavn</label>
+			<input type="text" class="form-control" name="lastname" id="personEtternavn">
+			<label>Mobil</label>
+			<input type="text" class="form-control" name="number" id="personMobil">
+			<label>Gruppe</label>
+			<select class="form-control" name="personherd" id="personherd">
+				{% for herd in herds %}
+					<option value="{{ herd.getId() }}" data-herd-foreign-id="{{ herd.getForeignId() }}">{{ herd.getName() }}</option>
+				{% endfor %}
+			</select>
+			<label class="label label-warning">OBS: Om det er endring av RFID må du manuelt kontrollere herdn</label>
+			<label>RFID</label>
+			<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
+			<p class="lead">Info lagres når du scanner ID-kortet.</p>
+		</form>
 	</div>
-<div class="col-xs-6">
-	<form id="UpdateUserForm">
-		<label>Fornavn</label>
-		<input type="hidden" name="ukm-person-id" id="ukm-person-id">
-		<input type="text" class="form-control" name="firstname" id="personFornavn">
-		<label>Etternavn</label>
-		<input type="text" class="form-control" name="lastname" id="personEtternavn">
-		<label>Mobil</label>
-		<input type="text" class="form-control" name="number" id="personMobil">
-		<label>Gruppe</label>
-		<select class="form-control" name="personherd" id="personherd">
-			{% for herd in herds %}
-				<option value="{{ herd.getId() }}" data-herd-foreign-id="{{ herd.getForeignId() }}">{{ herd.getName() }}</option>
-			{% endfor %}
-		</select>
-		<label class="label label-warning">OBS: Om det er endring av RFID må du manuelt kontrollere herdn</label>
-		<label>RFID</label>
-		<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
-		<p class="lead">Info lagres når du scanner ID-kortet.</p>
-	</form>
-</div>
-
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	jQuery('#fylkeslister').children().hide();
-
-	jQuery("#fylkevelger").change(function(e) {
+	
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
 		jQuery('#fylkeslister').children().hide();
-		jQuery("#fylke-"+e.target.value).show();
-	});
-});
-
-// Klikk på en bruker
-jQuery(".personElement").click(function(e) {
-	selectUser(e.target);	
-});
-
-jQuery("#UpdateUserForm").keyup(function(e) {
-	// Submit funker ikke uten submit-knapp, så vi gjør det manuelt.
-	if(e.keyCode == 13) {
-		e.preventDefault();
-
-		// Send brukerinfo
-		var ukm_person_id = jQuery("#ukm-person-id").val();
-		var personFornavn = jQuery("#personFornavn").val();
-		var personEtternavn = jQuery("#personEtternavn").val();
-		var personMobil = jQuery("#personMobil").val();
-		var herdid = jQuery('#personherd').val();
-		var rfidValue = jQuery("#rfidValue").val();
-		
-		var postData = {
-				'action': 'RFID_ajax',
-				'subaction': 'registerPerson',
-				'foreignId': "UKM-person-"+ukm_person_id,
-				'personFornavn': personFornavn,
-				'personEtternavn': personEtternavn,
-				'personMobil': personMobil,
-				'herd': herdid,
-				'rfidValue': rfidValue
-			};
-		
-		jQuery.post(
-			ajaxurl,
-			postData, 
-			function(response) {
-				updatedUser(response);
-			},
-			"json"
-		);
-
-		resetFields('#person-'+jQuery("#ukm-person-id").val());
-	}
-});
-
-// Move data to fields, set bg-color
-function selectUser(e) {
-	// Fjern bakgrunnsfarge kun på element som ikke har RFID-verdi lagret.
-	jQuery(e).
-		parent("ul").
-		children().
-		filter(function (index){
-			return "" == jQuery(this).attr('data-rfid');
-		}).
-		css("background-color", "");
-	jQuery(e).css("background-color", "#17a2b8!important");
-
-	jQuery("#ukm-person-id").val(jQuery(e).attr('data-person-id'));
-	jQuery("#personFornavn").val(jQuery(e).attr('data-person-fornavn'));
-	jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
-	jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
-	// Hvis personen har definert grupppe, bruk den, ellers velg gruppe basert på fylket.
-	if("" != jQuery(e).attr('data-herdid') && null != jQuery(e).attr('data-herdid') ) {
-		jQuery("#personherd").val(jQuery(e).attr('data-herdid'));
-	} else {
-		jQuery("#personherd option").each( function(){
-			if( jQuery( this ).attr('data-herd-foreign-id') == 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val() ) {
-				jQuery(this).prop('selected','selected');
-			}
+	
+		jQuery("#fylkevelger").change(function(e) {
+			jQuery('#fylkeslister').children().hide();
+			jQuery("#fylke-"+e.target.value).show();
 		});
+	});
+	
+	// Klikk på en bruker
+	jQuery(".personElement").click(function(e) {
+		selectUser(e.target);	
+	});
+	
+	jQuery("#UpdateUserForm").keyup(function(e) {
+		// Submit funker ikke uten submit-knapp, så vi gjør det manuelt.
+		if(e.keyCode == 13) {
+			e.preventDefault();
+	
+			// Send brukerinfo
+			var ukm_person_id = jQuery("#ukm-person-id").val();
+			var personFornavn = jQuery("#personFornavn").val();
+			var personEtternavn = jQuery("#personEtternavn").val();
+			var personMobil = jQuery("#personMobil").val();
+			var herdid = jQuery('#personherd').val();
+			var rfidValue = jQuery("#rfidValue").val();
+			
+			var postData = {
+					'action': 'RFID_ajax',
+					'subaction': 'registerPerson',
+					'foreignId': "UKM-person-"+ukm_person_id,
+					'personFornavn': personFornavn,
+					'personEtternavn': personEtternavn,
+					'personMobil': personMobil,
+					'herd': herdid,
+					'rfidValue': rfidValue
+				};
+			
+			jQuery.post(
+				ajaxurl,
+				postData, 
+				function(response) {
+					updatedUser(response);
+				},
+				"json"
+			);
+	
+			resetFields('#person-'+jQuery("#ukm-person-id").val());
+		}
+	});
+	
+	// Move data to fields, set bg-color
+	function selectUser(e) {
+		// Fjern bakgrunnsfarge kun på element som ikke har RFID-verdi lagret.
+		jQuery(e).
+			parent("ul").
+			children().
+			filter(function (index){
+				return "" == jQuery(this).attr('data-rfid');
+			}).
+			css("background-color", "");
+		jQuery(e).css("background-color", "#17a2b8!important");
+	
+		jQuery("#ukm-person-id").val(jQuery(e).attr('data-person-id'));
+		jQuery("#personFornavn").val(jQuery(e).attr('data-person-fornavn'));
+		jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
+		jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
+		// Hvis personen har definert grupppe, bruk den, ellers velg gruppe basert på fylket.
+		if("" != jQuery(e).attr('data-herdid') && null != jQuery(e).attr('data-herdid') ) {
+			jQuery("#personherd").val(jQuery(e).attr('data-herdid'));
+		} else {
+			jQuery("#personherd option").each( function(){
+				if( jQuery( this ).attr('data-herd-foreign-id') == 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val() ) {
+					jQuery(this).prop('selected','selected');
+				}
+			});
+		}
+		
+		jQuery("#rfidValue").val(jQuery(e).attr('data-rfid'));
+		jQuery("#rfidValue").focus();
+	
 	}
 	
-	jQuery("#rfidValue").val(jQuery(e).attr('data-rfid'));
-	jQuery("#rfidValue").focus();
-
-}
-
-// Resett feltene, velg neste
-function resetFields(current) {
-	jQuery("#ukm-person-id").val("");
-	jQuery("#personFornavn").val("");
-	jQuery("#personEtternavn").val("");
-	jQuery("#personMobil").val("");
-	jQuery("#personherd").val("");
-	jQuery("#rfidValue").val("");
-
-	jQuery(current).next().click();
-}
-
-// Bruker oppdatert rett
-function updatedUser(response) {
-	console.log(response);
-	if(response.success) {
-		console.log("Saved user data");
-		// Finn brukerens felt.
-		var userField = "#person-"+response.ukm_person_id;
-		jQuery(userField).attr('data-rfid', response.rfid);
-		// Sett grønn farge ved lagring OK.
-		jQuery(userField).css("background-color", "#28a745!important");	
-	} else if (false == response.success) {
-		alert("Feil! \n" + response.message);
+	// Resett feltene, velg neste
+	function resetFields(current) {
+		jQuery("#ukm-person-id").val("");
+		jQuery("#personFornavn").val("");
+		jQuery("#personEtternavn").val("");
+		jQuery("#personMobil").val("");
+		jQuery("#personherd").val("");
+		jQuery("#rfidValue").val("");
+	
+		jQuery(current).next().click();
 	}
-	else {
-		alert("En ukjent feil oppsto!");
+	
+	// Bruker oppdatert rett
+	function updatedUser(response) {
+		console.log(response);
+		if(response.success) {
+			console.log("Saved user data");
+			// Finn brukerens felt.
+			var userField = "#person-"+response.ukm_person_id;
+			jQuery(userField).attr('data-rfid', response.rfid);
+			// Sett grønn farge ved lagring OK.
+			jQuery(userField).css("background-color", "#28a745!important");	
+		} else if (false == response.success) {
+			alert("Feil! \n" + response.message);
+		}
+		else {
+			alert("En ukjent feil oppsto!");
+		}
 	}
-}
-
-</script>
-
+	
+	</script>
+{% endblock %}

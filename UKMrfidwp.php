@@ -54,6 +54,31 @@ class UKMRFID extends UKMmodul {
 		echo TWIGjs( dirname(__FILE__) );
 		return;
 	}
+	public static function adminDirectAreas() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'areas';
+		}
+		self::admin();
+	}
+	public static function adminDirectScanners() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'scanners';
+		}
+		self::admin();
+	}	
+	public static function adminDirectHerds() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'herds';
+		}
+		self::admin();
+	}
+	public static function adminDirectPersons() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'persons';
+		}
+		self::admin();
+	}
+
 	
 	public static function script() {
 		wp_enqueue_script('WPbootstrap3_js');
@@ -75,6 +100,45 @@ class UKMRFID extends UKMmodul {
 			'/wp-content/plugins/UKMRFIDwp/img/id-menu.png',
 			20
 		);
+		
+		add_submenu_page(
+			'RFID',
+			'Område',
+			'Område',
+			'administrator',
+			'RFIDareas',
+			['UKMRFID', 'adminDirectAreas']
+		);
+
+		add_submenu_page(
+			'RFID',
+			'Scannere',
+			'Scannere',
+			'administrator',
+			'RFIDscanners',
+			['UKMRFID', 'adminDirectScanners']
+		);
+		
+
+		add_submenu_page(
+			'RFID',
+			'Grupper',
+			'Grupper',
+			'administrator',
+			'RFIDherds',
+			['UKMRFID', 'adminDirectHerds']
+		);
+		
+
+		add_submenu_page(
+			'RFID',
+			'Personer',
+			'Personer',
+			'administrator',
+			'RFIDpersons',
+			['UKMRFID', 'adminDirectPersons']
+		);
+		
 		UKM_add_scripts_and_styles(
 			'UKMVideresending_admin',	# Page-hook
 			['UKMVideresending', 'script']	# Script-funksjon

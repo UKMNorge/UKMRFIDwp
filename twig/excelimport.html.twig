@@ -24,14 +24,14 @@
 				<label for="excelImportFile">Last opp Excel-fil</label>
 				<input type="file" class="form-control-file form-control-lg" id="excelImportFile" name="excelImportFile">
 			</form>
-			<h3>{{ filnavn }}</h3>
+			<span class="lead">{{ filnavn }}</span>
 		</div>
 	
 		<ul id="personliste" class="list-group">
 			{% if personListe is defined %}
 				{% for person in personListe %}
 					<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
-					data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
+					data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
 						{{ person.fornavn }} {{ person.etternavn }}
 					</li>
 				{% else %}
@@ -131,10 +131,11 @@
 		jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
 		jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
 
+		var herd = jQuery(e).attr('data-herdid');
+
 		// Hvis personen har definert grupppe (foreign-id), bruk den
-		
 		jQuery("#personherd option").each( function(){
-			if( jQuery( this ).attr('data-herd-foreign-id') == 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val() ) {
+			if( jQuery( this ).attr('data-herd-foreign-id') == herd ) {
 				jQuery(this).prop('selected','selected');
 			}
 		});

@@ -11,7 +11,6 @@
 
 
 {% block content %}
-	<p>{{ filnavn }}</p>
 	<h4>Bruksanvisning</h4>
 	<p>
 		Last opp en fil du vil registrere brukere fra, og trykk på en bruker. Info fylles ut automatisk til høyre, og RFID-feltet blir valgt. Bip deretter ID-brikken over scanneren. Data lagres automatisk, og neste deltaker i listen blir valgt.
@@ -25,6 +24,7 @@
 				<label for="excelImportFile">Last opp Excel-fil</label>
 				<input type="file" class="form-control-file form-control-lg" id="excelImportFile" name="excelImportFile">
 			</form>
+			<h3>{{ filnavn }}</h3>
 		</div>
 	
 		<ul id="personliste" class="list-group">
@@ -37,6 +37,8 @@
 				{% else %}
 					<p class="lead">Ingen personer i filen</p>
 				{% endfor %}
+			{% elseif error is defined %}
+				<div class="alert alert-{{ error.level }}">{{ error.message }}</div>
 			{% endif %}
 		</ul>
 	</div>

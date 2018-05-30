@@ -16,6 +16,7 @@ if( !class_exists('UKMModul') ) {
 
 if(is_admin()) {
 	add_action('network_admin_menu', ['UKMRFID','meny']);
+	add_action('admin_menu', ['UKMRFID','meny']);
 
 	add_action('wp_ajax_RFID_ajax', ['UKMRFID', 'ajax']);
 }
@@ -147,7 +148,7 @@ class UKMRFID extends UKMmodul {
 			'RFID',
 			'Rapporter',
 			'Rapporter',
-			'administrator',
+			'ukmrfid_reports',
 			'RFIDreports',
 			['UKMRFID', 'adminDirectReports']
 		);

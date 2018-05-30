@@ -162,8 +162,9 @@
 		if(response.success) {
 			console.log("Saved user data");
 			// Finn brukerens felt.
-			
-			var userField = "#person-"+response.ukm_person_id;
+			var id = response.ukm_person_id.split("-")[2];
+			console.log(id);
+			var userField = "#person-"+id;
 			jQuery(userField).attr('data-rfid', response.rfid);
 			// Sett grønn farge ved lagring OK.
 			jQuery(userField).css("background-color", "#28a745!important");	

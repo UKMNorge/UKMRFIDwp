@@ -86,7 +86,7 @@ class UKMRFID extends UKMmodul {
 		self::admin();
 	}
 	
-	public static function script() {
+	public static function scripts_and_styles() {
 		wp_enqueue_script('WPbootstrap3_js');
 		wp_enqueue_style('WPbootstrap3_css');
 		wp_enqueue_script('TwigJS');
@@ -106,8 +106,10 @@ class UKMRFID extends UKMmodul {
 			'/wp-content/plugins/UKMRFIDwp/img/id-menu.png',
 			20
 		);
+		add_action( 'admin_print_styles-' . $page, ['UKMRFID', 'scripts_and_styles'] );
+
 		
-		add_submenu_page(
+		$subpage = add_submenu_page(
 			'RFID',
 			'Område',
 			'Område',
@@ -115,8 +117,10 @@ class UKMRFID extends UKMmodul {
 			'RFIDareas',
 			['UKMRFID', 'adminDirectAreas']
 		);
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 
-		add_submenu_page(
+
+		$subpage = add_submenu_page(
 			'RFID',
 			'Scannere',
 			'Scannere',
@@ -124,9 +128,9 @@ class UKMRFID extends UKMmodul {
 			'RFIDscanners',
 			['UKMRFID', 'adminDirectScanners']
 		);
-		
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 
-		add_submenu_page(
+		$subpage = add_submenu_page(
 			'RFID',
 			'Grupper',
 			'Grupper',
@@ -134,8 +138,9 @@ class UKMRFID extends UKMmodul {
 			'RFIDherds',
 			['UKMRFID', 'adminDirectHerds']
 		);
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 
-		add_submenu_page(
+		$subpage = add_submenu_page(
 			'RFID',
 			'Personer',
 			'Personer',
@@ -143,8 +148,9 @@ class UKMRFID extends UKMmodul {
 			'RFIDpersons',
 			['UKMRFID', 'adminDirectPersons']
 		);
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 
-		add_submenu_page(
+		$subpage = add_submenu_page(
 			'RFID',
 			'Rapporter',
 			'Rapporter',
@@ -152,11 +158,7 @@ class UKMRFID extends UKMmodul {
 			'RFIDreports',
 			['UKMRFID', 'adminDirectReports']
 		);
-
-		UKM_add_scripts_and_styles(
-			'UKMVideresending_admin',	# Page-hook
-			['UKMVideresending', 'script']	# Script-funksjon
-		);
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 	}
 	
 	public static function ajax() {

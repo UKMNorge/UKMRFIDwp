@@ -30,7 +30,7 @@
 		<ul id="personliste" class="list-group">
 			{% if personListe is defined %}
 				{% for person in personListe %}
-					<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
+					<li class="list-group-item personElement clickable" id="person-{{ person.id }}" excel-rad-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
 					data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
 						{{ person.fornavn }} {{ person.etternavn }}
 					</li>
@@ -93,7 +93,7 @@
 			var postData = {
 					'action': 'RFID_ajax',
 					'subaction': 'registerPerson',
-					'foreignId': "excel-rad-"+ukm_person_id,
+					'foreignId': "excel-rad-"+excel_rad_id,
 					'personFornavn': personFornavn,
 					'personEtternavn': personEtternavn,
 					'personMobil': personMobil,
@@ -126,7 +126,7 @@
 			css("background-color", "");
 		jQuery(e).css("background-color", "#17a2b8!important");
 	
-		jQuery("#excel-rad-id").val(jQuery(e).attr('data-person-id'));
+		jQuery("#excel-rad-id").val(jQuery(e).attr('excel-rad-id'));
 		jQuery("#personFornavn").val(jQuery(e).attr('data-person-fornavn'));
 		jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
 		jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));

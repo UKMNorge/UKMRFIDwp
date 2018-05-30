@@ -28,7 +28,7 @@ foreach($fylker as $fylke) {
 			if( ! in_array($person, $personListe) ) {
 				// TODO: Sjekk personens lagrede gruppe (krever postgres-spørring!)
 
-				// TODO: Oppdater personens lagrede RFID.
+				// TODO: Oppdater personens lagrede RFID, for sjekking av grønn-status.
 
 				$personListe[$fylke->id][] = $person;
 			}
@@ -38,15 +38,6 @@ foreach($fylker as $fylke) {
 
 \UKMRFID::addViewData('personListe', $personListe);
 \UKMRFID::addViewData('monstring', $monstring);
-
-// TODO: Finn grupper med API
-$gruppe = new stdClass();
-$gruppe->id = 1;
-$gruppe->navn = "Test";
-
-$gruppe2 = new stdClass();
-$gruppe2->id = 2;
-$gruppe2->navn = "Test2";
 
 require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 $herds = HerdColl::GetAllByName();

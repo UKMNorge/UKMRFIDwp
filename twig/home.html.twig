@@ -29,7 +29,7 @@
 			{% for area in areas %}
 				<tr>
 					<td>{{ area.getName() }}</td>
-					<td>{{ area.getCount() }}</td>
+					<td>{{ area.getPersonsInAreaCount() }}</td>
 					<td>{{ area.getScanners()|length }}</td>
 					<td>
 						<a href="?page={{ GET('page') }}&action=area_scans&id={{ area.getId() }}" class="btn btn-mini btn-xs btn-primary">Bevegelser</a>

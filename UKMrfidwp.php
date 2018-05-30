@@ -78,7 +78,12 @@ class UKMRFID extends UKMmodul {
 		}
 		self::admin();
 	}
-
+	public static function adminDirectReports() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'reports';
+		}
+		self::admin();
+	}
 	
 	public static function script() {
 		wp_enqueue_script('WPbootstrap3_js');
@@ -128,7 +133,6 @@ class UKMRFID extends UKMmodul {
 			'RFIDherds',
 			['UKMRFID', 'adminDirectHerds']
 		);
-		
 
 		add_submenu_page(
 			'RFID',
@@ -138,7 +142,16 @@ class UKMRFID extends UKMmodul {
 			'RFIDpersons',
 			['UKMRFID', 'adminDirectPersons']
 		);
-		
+
+		add_submenu_page(
+			'RFID',
+			'Rapporter',
+			'Rapporter',
+			'administrator',
+			'RFIDreports',
+			['UKMRFID', 'adminDirectReports']
+		);
+
 		UKM_add_scripts_and_styles(
 			'UKMVideresending_admin',	# Page-hook
 			['UKMVideresending', 'script']	# Script-funksjon

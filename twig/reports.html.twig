@@ -1,0 +1,36 @@
+{% extends "_layout.html.twig" %}
+
+{% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		<a href="?page=RFID">RFID</a> / 
+		Rapporter
+	</h1>
+{% endblock %}
+
+
+{% block content %}
+	{% for area in areas %}
+		<a href="?page={{ GET('page') }}&action=report_evac&area={{ area.getId() }}">	
+			<div class="card">
+				<img src="//ico.ukm.no/evac-128.png" width="96" style="float:left; margin-right: 20px;" />
+				<h1 style="margin-top: 7px;">EVAKUERE {{ area.getName()|upper }}</h1>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	
+		<a href="?page={{ GET('page') }}&action=report_piacount&area={{ area.getId() }}">	
+			<div class="card">
+				<img src="//ico.ukm.no/hotel-64.png" style="float:left; margin-right: 20px;" />
+				<h3>ANTALL I {{ area.getName()|upper }}</h3>
+			</div>
+		</a>
+	
+		<a href="?page={{ GET('page') }}&action=report_pia&area={{ area.getId() }}">	
+			<div class="card">
+				<img src="//ico.ukm.no/user-group-64.png" style="float:left; margin-right: 20px;" />
+				<h3>HVEM ER I {{ area.getName()|upper }}</h3>
+			</div>
+		</a>	
+	{% endfor %}
+{% endblock %}

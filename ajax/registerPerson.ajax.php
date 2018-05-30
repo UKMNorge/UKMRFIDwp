@@ -3,7 +3,7 @@
 namespace UKMNorge\RFID;
 use Exception;
 
-require_once( UKMRFID .'/class/postgres.class.php');
+require_once( 'UKM/postgres.class.php');
 POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 
 // Todo: Registrer person
@@ -17,8 +17,8 @@ $rfidValue = $_POST['rfidValue'];
 $person = null;
 
 
-require_once(UKMRFID .'/models/person.class.php');
-require_once(UKMRFID .'/models/person.collection.php');
+require_once(UKMRFID_INCLUDE_PATH .'person.class.php');
+require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
 // Sjekk om personen finnes og skal oppdateres
 try {
 	$person = PersonColl::getByForeignId($foreign_id);

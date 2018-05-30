@@ -16,7 +16,7 @@
 		Last opp en fil du vil registrere brukere fra, og trykk på en bruker. Info fylles ut automatisk til høyre, og RFID-feltet blir valgt. Bip deretter ID-brikken over scanneren. Data lagres automatisk, og neste deltaker i listen blir valgt.
 	</p>
 	<p>
-		Deltakeren du jobber med blir blå - de som allerede har en lagret RFID er grønne.
+		Deltakeren du jobber med er blå - når de er lagret blir de grønne.
 	</p>
 	<div class="col-xs-6">
 		<div class="form-group">
@@ -163,7 +163,6 @@
 			console.log("Saved user data");
 			// Finn brukerens felt.
 			var id = response.ukm_person_id.split("-")[2];
-			console.log(id);
 			var userField = "#person-"+id;
 			jQuery(userField).attr('data-rfid', response.rfid);
 			// Sett grønn farge ved lagring OK.

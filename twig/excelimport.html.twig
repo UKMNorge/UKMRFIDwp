@@ -45,7 +45,7 @@
 	<div class="col-xs-6">
 		<form id="UpdateUserForm">
 			<label>Fornavn</label>
-			<input type="hidden" name="ukm-person-id" id="ukm-person-id">
+			<input type="hidden" name="excel-rad-id" id="excel-rad-id">
 			<input type="text" class="form-control" name="firstname" id="personFornavn">
 			<label>Etternavn</label>
 			<input type="text" class="form-control" name="lastname" id="personEtternavn">
@@ -110,7 +110,7 @@
 				"json"
 			);
 	
-			resetFields('#person-'+jQuery("#ukm-person-id").val());
+			resetFields('#person-'+jQuery("#excel-rad-id").val());
 		}
 	});
 	
@@ -126,7 +126,7 @@
 			css("background-color", "");
 		jQuery(e).css("background-color", "#17a2b8!important");
 	
-		jQuery("#ukm-person-id").val(jQuery(e).attr('data-person-id'));
+		jQuery("#excel-rad-id").val(jQuery(e).attr('data-person-id'));
 		jQuery("#personFornavn").val(jQuery(e).attr('data-person-fornavn'));
 		jQuery("#personEtternavn").val(jQuery(e).attr('data-person-etternavn'));
 		jQuery("#personMobil").val(jQuery(e).attr('data-mobil'));
@@ -146,7 +146,7 @@
 	
 	// Resett feltene, velg neste
 	function resetFields(current) {
-		jQuery("#ukm-person-id").val("");
+		jQuery("#excel-rad-id").val("");
 		jQuery("#personFornavn").val("");
 		jQuery("#personEtternavn").val("");
 		jQuery("#personMobil").val("");

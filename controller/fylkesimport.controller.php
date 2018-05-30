@@ -48,7 +48,7 @@ $gruppe2 = new stdClass();
 $gruppe2->id = 2;
 $gruppe2->navn = "Test2";
 
-require_once(UKMRFID .'/models/herd.collection.php');
+require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 $herds = HerdColl::GetAllByName();
 
 \UKMRFID::addViewData('herds', $herds);

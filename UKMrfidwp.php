@@ -21,6 +21,7 @@ if(is_admin()) {
 }
 
 define('UKMRFID', dirname(__FILE__));
+define('UKMRFID_INCLUDE_PATH', 'UKM/RFID/');
 
 
 class UKMRFID extends UKMmodul {
@@ -34,7 +35,7 @@ class UKMRFID extends UKMmodul {
 	public static function init() {
 		self::setAction('home');
 		parent::init(null);
-		require_once( UKMRFID .'/class/postgres.class.php');
+		require_once( 'UKM/postgres.class.php');
 		POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 	}
 	

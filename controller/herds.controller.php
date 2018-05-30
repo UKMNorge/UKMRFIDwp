@@ -3,7 +3,7 @@
 namespace UKMNorge\RFID;
 use Exception;
 	
-require_once(UKMRFID .'/models/herd.collection.php');
+require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	switch( $_POST['action'] ) {

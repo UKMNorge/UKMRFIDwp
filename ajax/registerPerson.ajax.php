@@ -50,6 +50,11 @@ if( is_object($person) ) {
 }
 
 \UKMRFID::addResponseData('gruppeid', $personGruppe);
-\UKMRFID::addResponseData('ukm_person_id', $foreign_id);
+// Returner kun rad-nr for Excel.
+if(strpos($foreign_id, 'excel-rad-')) {
+	\UKMRFID::addResponseData('ukm_person_id', substr($foreign_id, length('excel-rad-')));
+} else {
+	\UKMRFID::addResponseData('ukm_person_id', $foreign_id);	
+}
 \UKMRFID::addResponseData('rfid', $rfidValue);
 	

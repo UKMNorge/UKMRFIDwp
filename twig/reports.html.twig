@@ -11,6 +11,8 @@
 
 {% block content %}
 	{% for area in areas %}
+		<div style="margin-top: 2em;">&nbsp;</div>
+	
 		<a href="?page={{ GET('page') }}&action=report_evac&area={{ area.getId() }}">	
 			<div class="card">
 				<img src="//ico.ukm.no/evac-128.png" width="96" style="float:left; margin-right: 20px;" />

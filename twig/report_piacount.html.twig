@@ -11,6 +11,12 @@
 
 
 {% block content %}
+	<div class="alert alert-info">
+		<p>
+			{{ area.getPiACount() }} deltakere og ledere i {{ area.getName() }}
+		</p>
+	</div>
+	<div class="clearfix"></div>
 	<div class="col-12 col-sm-6">
 		<h2>Deltakere</h2>
 		<table class="table table-striped">
@@ -25,7 +31,7 @@
 				{% for herd in herds if herd.getForeignId() matches '/^UKM-fylke-[\\d\\.]+$/' %}
 					<tr>
 						<td>{{ herd.getName() }}</td>
-						<td>{{ herd.getPersonsInAreaCount() }}</td>
+						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>
 					</tr>
 				{% else %}
 					<tr>
@@ -50,7 +56,7 @@
 				{% for herd in herds if herd.getForeignId() matches '/^UKM-fylke-ledere-[\\d\\.]+$/' %}
 					<tr>
 						<td>{{ herd.getName() }}</td>
-						<td>{{ herd.getPersonsInAreaCount() }}</td>
+						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>
 					</tr>
 				{% else %}
 					<tr>

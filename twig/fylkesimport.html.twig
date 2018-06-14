@@ -33,9 +33,10 @@
 				{% for fylke in fylker %}
 					<ul id="fylke-{{ fylke.id }}" class="list-group">
 						{% for person in personListe[fylke.id] %}
-							<li class="list-group-item personElement clickable" id="person-{{ person.id }}" data-person-id="{{ person.id }}" data-person-fornavn="{{ person.fornavn }}" 
-							data-person-etternavn="{{ person.etternavn }}" data-mobil="{{ person.mobil }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
-								{{ person.navn() }}
+							<li class="list-group-item personElement clickable" id="person-{{ person.getId() }}" data-person-id="{{ person.getId() }}" data-person-fornavn="{{ person.getFornavn() }}" 
+							data-person-etternavn="{{ person.getEtternavn() }}" data-mobil="{{ person.getMobil() }}" data-herdid="{{ person.herd.getForeignId() }}" data-herdnavn="{{ person.herd.getName() }}" data-herd-foreign-id="{{ person.getAttr('herd') }}" data-rfid="{{ person.rfid }}" style="{{ person.rfid ? 'background-color: #28a745!important' : '' }}">
+								{{ person.getNavn() }}
+								{% if person.getAttr('type') == 'leder' %}<small>(leder)</small>{% endif %}
 							</li>
 						{% else %}
 							<p class="lead">Ingen personer fra {{ fylke.navn }}</p>
@@ -138,8 +139,13 @@
 		if("" != jQuery(e).attr('data-herdid') && null != jQuery(e).attr('data-herdid') ) {
 			jQuery("#personherd").val(jQuery(e).attr('data-herdid'));
 		} else {
+			if("" != jQuery(e).attr('data-herd-foreign-id') && null != jQuery(e).attr('data-herd-foreign-id') ) {
+				var compare = jQuery(e).attr('data-herd-foreign-id');
+			} else {
+				var compare = 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val();
+			}
 			jQuery("#personherd option").each( function(){
-				if( jQuery( this ).attr('data-herd-foreign-id') == 'UKM-fylke-'+jQuery("#fylkevelger").find(":selected").first().val() ) {
+				if( jQuery( this ).attr('data-herd-foreign-id') == compare ) {
 					jQuery(this).prop('selected','selected');
 				}
 			});

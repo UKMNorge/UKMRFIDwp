@@ -22,7 +22,7 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Område</th>
+					<th>Fylke</th>
 					<th>Deltakere</th>
 				</tr>
 			</thead>
@@ -40,14 +40,13 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
 	</div>
 	<div class="col-12 col-sm-6">
 		<h2>Ledere</h2>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Område</th>
+					<th>Fylke</th>
 					<th>Ledere</th>
 				</tr>
 			</thead>
@@ -65,6 +64,31 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
 	</div>
+	
+	<div class="col-12 col-sm-6">
+		<h2>Andre grupper</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Gruppe</th>
+					<th>Personer</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				{% for herd in herds if not (herd.getForeignId() matches '/^UKM-fylke-[A-Za-z0-9-.]+$/') %}
+					<tr>
+						<td>{{ herd.getName() }}</td>
+						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3">Ingen grupper er registrert i systemet</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
 {% endblock %}

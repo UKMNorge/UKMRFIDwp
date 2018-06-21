@@ -44,6 +44,7 @@ try {
 		}
 		
 		\UKMRFID::addViewData('filnavn', $_FILES['excelImportFile']['name']);
+		\UKMRFID::addViewData('random', hash('md5', $_FILES['excelImportFile']['tmp_name']));
 		\UKMRFID::addViewData('personListe', $personListe);	
 	}
 }

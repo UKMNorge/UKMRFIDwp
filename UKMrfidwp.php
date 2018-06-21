@@ -33,7 +33,7 @@ class UKMRFID extends UKMmodul {
 	 * Initier Videresending-objektet
 	 *
 	**/
-	public static function init() {
+	public static function init($pl_id = null) {
 		self::setAction('home');
 		parent::init(null);
 		require_once( 'UKM/postgres.class.php');
@@ -85,7 +85,13 @@ class UKMRFID extends UKMmodul {
 		}
 		self::admin();
 	}
-	
+	public static function adminDirectRegistration() {
+		if( !isset( $_GET['action'] ) ) {
+			$_GET['action'] = 'backup_registration';
+		}
+		self::admin();
+	}
+
 	public static function scripts_and_styles() {
 		wp_enqueue_script('WPbootstrap3_js');
 		wp_enqueue_style('WPbootstrap3_css');
@@ -157,6 +163,16 @@ class UKMRFID extends UKMmodul {
 			'ukmrfid_reports',
 			'RFIDreports',
 			['UKMRFID', 'adminDirectReports']
+		);
+		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
+
+		$subpage = add_submenu_page(
+			'RFID',
+			'Etterregistrering',
+			'Etterregistrering',
+			'administrator',
+			'RFIDbackup_registration',
+			['UKMRFID', 'adminDirectRegistration']
 		);
 		add_action( 'admin_print_styles-' . $subpage, ['UKMRFID', 'scripts_and_styles'] );
 	}

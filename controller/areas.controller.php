@@ -23,3 +23,4 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	
 
 \UKMRFID::addViewData('areas', AreaColl::getAllByName() );
+\UKMRFID::addViewData('persons', PersonColl::getAllByName() );

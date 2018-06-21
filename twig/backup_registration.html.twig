@@ -1,0 +1,60 @@
+{% extends "_layout.html.twig" %}
+
+{# {% block header %}
+	<h1>
+		<img src="/wp-content/plugins/UKMRFIDwp/img/id-48.png" width="40" style="float: left; margin-right: 10px" />
+		RFID
+	</h1>
+{% endblock %} #}
+
+
+{% block content %}
+	<h3>
+		Etterregistrering
+	</h3>
+	<p class="help-text">OBS: Denne skal kun brukes til etterregistrering av manuelt noterte passeringer, f.eks dersom systemet har gått ned.</p>
+
+	<div class="col-xs-12 col-sm-6">
+		<h3>Velg område</h3>
+		<select class="form-control" name="area" id="area" {{ areas is not defined or areas is empty ? 'disabled' }} required>
+			{% for area in areas %}
+				<option value="{{ area.getId() }}">{{ area.getName() }}</option>
+			{% else %}
+				<option value="" disabled>No areas available!</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		<h3>Registrèr</h3>
+		<div class="row">
+			<div class="col-xs-12 col-md-6">
+				<a href="#" class="btn btn-success btn-block">Inn</a>
+				<br class="visible-xs-block" />
+			</div>
+			<div class="col-xs-12 col-md-6">
+				<a href="#" class="btn btn-primary btn-block">Ut</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		<h3>Søk etter bruker</h3>
+		<p>Skriv brukerens navn eller fylke i boksen. Når det er kun èn bruker synlig eller en bruker er markert, kan du trykke på Inn / Ut-knappene.</p>
+		<input type="text" name="filtrer" id="filterInnslag" placeholder="Skriv her for å søke i listen..." class="form-control block" />
+		
+		<div class="well" id="resultsBox">
+			<ul class="list-group">
+				{% for person in persons %}
+					<a href="#" class="list-group-item" data-person-id="{{ person.getId() }}">
+						{{ person.getName() }}
+					</a>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	
+
+{% endblock %}
+
+{% block javascripts %}
+	
+{% endblock %}

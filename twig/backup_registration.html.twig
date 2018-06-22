@@ -105,15 +105,6 @@
 		);
 	});
 
-	// Move data to fields, set bg-color
-	function selectUser(target) {
-		// Fjern bakgrunnsfarge på alle andre element
-		/*jQuery(e).
-			parent("ul").
-			children().
-			css("background-color", "");*/
-	}
-
 	// Bruker oppdatert rett
 	function updatedUser(response) {
 		console.log(response);
@@ -124,9 +115,11 @@
 			// Finn brukerens felt.
 			var userField = "#rfid-"+response.rfid;
 			// Blink grønn farge ved lagring OK.
-			jQuery(userField).css("background-color", "#28a745!important");
-			setTimeout(function (userField) {	
-				jQuery(userField).css("background-color", "");
+			//jQuery(userField).css("background-color", "#28a745!important");
+			jQuery(userField).addClass('green');
+			setTimeout(function() {
+				//jQuery(userField).css("background-color", "");
+				jQuery(userField).removeClass('green');
 			}, 2000);
 		} else if (false == response.success) {
 			alert("Feil! \n" + response.message);
@@ -136,4 +129,12 @@
 		}
 	}
 	</script>
+	<style>
+	.green {
+		background-color: #28a745!important;
+	    -webkit-transition: background-color 1000ms linear;
+	    -ms-transition: background-color 1000ms linear;
+	    transition: background-color 1000ms linear;
+	}
+	</style>
 {% endblock %}

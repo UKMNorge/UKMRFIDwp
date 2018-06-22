@@ -14,7 +14,7 @@ require_once("UKM/fylker.class.php");
 require_once("UKM/monstringer.class.php");
 require_once(UKMRFID.'/class/lederPersonIntermediary.class.php');
 
-$fylker = fylker::getAll();
+$fylker = fylker::getAllInkludertGjester();
 \UKMRFID::addViewData('fylker', $fylker );
 
 // Mønstringsdata for festivalen:

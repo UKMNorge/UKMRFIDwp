@@ -93,7 +93,7 @@
 			var postData = {
 					'action': 'RFID_ajax',
 					'subaction': 'registerPerson',
-					'foreignId': "excel-rad-"+excel_rad_id,
+					'foreignId': "{{ random }}-{{ filnavn }}-excel-rad-"+excel_rad_id,
 					'personFornavn': personFornavn,
 					'personEtternavn': personEtternavn,
 					'personMobil': personMobil,
@@ -101,6 +101,7 @@
 					'rfidValue': rfidValue
 				};
 			
+			console.log(postData);
 			jQuery.post(
 				ajaxurl,
 				postData, 

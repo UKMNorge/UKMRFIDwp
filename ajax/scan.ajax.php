@@ -12,15 +12,15 @@ require_once(UKMRFID_INCLUDE_PATH .'scan.collection.php');
 
 
 $area = $_POST['area'];
-$userId = $_POST['rfidUserId'];
+$rfid = $_POST['rfidUserId'];
 $direction = $_POST['direction'];
 
 try {
-	$scan = Scan::create($userId, $direction, $area);
+	$scan = Scan::create($rfid, $direction, $area);
 	\UKMRFID::addResponseData('success', true );
-	\UKMRFID::addResponseData('rfid', $userId );
+	\UKMRFID::addResponseData('rfid', $rfid );
 }
 catch (Exception $e) {
 	\UKMRFID::addResponseData('success', false );
-	\UKMRFID::addResponseData('message', "Feilet på å opprette scanning: " .$e->getMessage());
+	\UKMRFID::addResponseData('message', "Feilet på å opprette scanning for rfid ". $rfid .": " .$e->getMessage());
 }

@@ -116,8 +116,8 @@
 			var userField = "#rfid-"+response.rfid;
 			// Blink grønn farge ved lagring OK.
 			//jQuery(userField).css("background-color", "#28a745!important");
-			jQuery(userField).addClass('green');
 			jQuery(userField).css("background-color", "");
+			jQuery(userField).addClass('green');
 			setTimeout(function() {
 				jQuery(userField).removeClass('green');
 			}, 2000);

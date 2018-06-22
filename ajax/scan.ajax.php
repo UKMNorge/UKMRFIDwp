@@ -12,7 +12,7 @@ require_once(UKMRFID_INCLUDE_PATH .'scan.collection.php');
 
 
 $area = $_POST['area'];
-$rfid = $_POST['rfidUserId'];
+$rfid = $_POST['rfid'];
 $direction = $_POST['direction'];
 
 try {

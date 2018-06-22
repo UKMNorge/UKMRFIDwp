@@ -74,11 +74,11 @@
 	// Send AJAX
 	jQuery(".scan").click(function(e) {
 		var direction = jQuery(e.target).attr('data-direction');
-		var rfidUserId = jQuery("#rfidUserId").val();
+		var rfid = jQuery("#rfidUserId").val();
 		var area = jQuery("#area").val();
 
 		console.log('Direction: '+direction);
-		console.log('RFID-value: '+rfidUserId);
+		console.log('RFID-value: '+rfid);
 		console.log('Area: '+area);
 
 		// Verify that user is selected first
@@ -90,9 +90,9 @@
 		var postData = {
 			'action': 'RFID_ajax',
 			'subaction': 'scan',
-			'rfidUserId': jQuery("#rfidUserId").attr('data-rfidUserId'),
-			'direction': jQuery(e.target).attr('data-direction'),
-			'area': jQuery("#area").val()
+			'rfid': rfid,
+			'direction': direction,
+			'area': area
 		};
 	
 		jQuery.post(

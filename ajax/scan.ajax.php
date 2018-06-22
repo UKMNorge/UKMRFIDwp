@@ -16,7 +16,7 @@ $userId = $_POST['rfidUserId'];
 $direction = $_POST['direction'];
 
 try {
-	$scan = Scan::create($userId, $area, $direction);
+	$scan = Scan::create($userId, $direction, $area);
 	\UKMRFID::addResponseData('success', true );
 	\UKMRFID::addResponseData('rfid', $userId );
 }

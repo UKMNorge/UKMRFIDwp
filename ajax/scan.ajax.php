@@ -15,10 +15,11 @@ $area = $_POST['area'];
 $rfid = $_POST['rfid'];
 $direction = $_POST['direction'];
 
+\UKMRFID::addResponseData('rfid', $rfid );
+
 try {
 	$scan = Scan::create($rfid, $direction, $area);
 	\UKMRFID::addResponseData('success', true );
-	\UKMRFID::addResponseData('rfid', $rfid );
 }
 catch (Exception $e) {
 	\UKMRFID::addResponseData('success', false );

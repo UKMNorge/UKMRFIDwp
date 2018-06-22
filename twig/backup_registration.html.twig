@@ -108,12 +108,13 @@
 	// Bruker oppdatert rett
 	function updatedUser(response) {
 		console.log(response);
+		// Finn brukerens felt.
+		var userField = "#rfid-"+response.rfid;
+		
 		if(response.success) {
 			console.log("Saved scan");
 			// Reset user-ID
 			jQuery("#rfidUserId").attr('data-rfidUserId', "");
-			// Finn brukerens felt.
-			var userField = "#rfid-"+response.rfid;
 			// Blink grønn farge ved lagring OK.
 			//jQuery(userField).css("background-color", "#28a745!important");
 			jQuery(userField).css("background-color", "");
@@ -122,9 +123,11 @@
 				jQuery(userField).removeClass('green');
 			}, 2000);
 		} else if (false == response.success) {
+			jQuery(userField).css("background-color", "maroon");
 			alert("Feil! \n" + response.message);
 		}
 		else {
+			jQuery(userField).css("background-color", "maroon");
 			alert("En ukjent feil oppsto!");
 		}
 	}

@@ -43,26 +43,72 @@
 	</div>
 	<div class="col-xs-12 col-sm-6">
 		<h3>Søk etter bruker</h3>
-		<p>Skriv brukerens navn eller fylke i boksen. Når det er kun èn bruker synlig eller en bruker er markert, kan du trykke på Inn / Ut-knappene.</p>
-		<input type="text" name="filtrer" id="filterInnslag" placeholder="Skriv her for å søke i listen..." class="form-control block" />
+		<p>Skriv brukerens navn eller fylke i boksen. Klikk på brukeren du vil sjekke inn eller ut, og trykk på Inn eller Ut-knappen.</p>
+		<input type="text" name="filtrer" id="filterPersoner" placeholder="Skriv her for å søke i listen..." class="form-control block" />
 		
 		<div class="well" id="resultsBox">
-			<ul class="list-group">
+			<ul class="list-group" id="searchList">
 				{% for person in persons %}
-					<li class="list-group-item personElement clickable" data-rfid="{{ person.getRFID() }}" id="rfid-{{ person.getRFID() }}">
+					<li class="list-group-item personElement personFilter clickable" data-rfid="{{ person.getRFID() }}" id="rfid-{{ person.getRFID() }}" data-filter="{{ person.getName() }}">
 						{{ person.getName() }}
 					</li>
 				{% endfor %}
-
+			 	
 				{% if UKM_HOSTNAME == 'ukm.dev' %}
-					<li class="list-group-item personElement clickable" data-rfid="rfid-{{ loop.index }}" id="rfid-{{ loop.index }}">
+					<li class="list-group-item personElement personFilter clickable" data-rfid="rfid-1" id="rfid-1"  data-filter="Person Personen">
 						Person personen
 					</li>
+					<li class="list-group-item personElement personFilter clickable" data-rfid="rfid-2" id="rfid-2"  data-filter="Anders Persson">
+						Anders Persson
+					</li>
 				{% endif %}
+				<li id="searchListNoneFound" style="display:none;">
+		 			Beklager, ingen treff.
+		 		</li>
 			</ul>
 		</div>
 	</div>
 	
+	<script type="text/javascript">
+	jQuery(document).on('keyup', '#filterPersoner', function() {
+		var words = jQuery(this).val().toLowerCase().split(' ');
+		/*console.log(words);*/
+		jQuery("#searchList .personFilter").each(function() {
+			/*console.log(this);*/
+			show = false;
+			for (var i = words.length - 1; i >= 0; i--) {
+				/*console.log(words[i]);
+				console.log(jQuery(this).attr('data-filter'));
+				console.log(jQuery(this).attr('data-filter').toLowerCase().indexOf(words[i]));*/
+				if(jQuery(this).attr('data-filter').toLowerCase().indexOf(words[i]) != -1) {
+                    show = true;
+				}
+			}
+			if(show) {
+				jQuery(this).removeClass('hidden');
+			}
+			else {
+				jQuery(this).addClass('hidden');
+			}
+		});
+	//	var rex = new RegExp( '\\b' + jQuery(this).val(), 'gi');
+		/*jQuery('#searchList .filter').hide();
+		jQuery('#searchList .filter').filter(function() {
+			var searchIn = jQuery(this).attr('data-filter').toLowerCase();
+			var found = false;
+			
+			words.forEach( function( word ) {
+				if( searchIn.indexOf( word ) !== -1 ) {
+					found = true;
+					return;
+				}
+			});
+			
+			return found;
+		}).show();*/
+	});
+	</script>
+
 	<script type="text/javascript">
 
 	// Click a user

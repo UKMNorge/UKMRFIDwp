@@ -129,6 +129,9 @@
 			},
 			"json"
 		);
+
+		// Reset user-ID
+		jQuery("#rfidUserId").val("");
 	});
 
 	// Bruker oppdatert rett
@@ -139,8 +142,6 @@
 		
 		if(response.success) {
 			console.log("Saved scan");
-			// Reset user-ID
-			jQuery("#rfidUserId").attr('data-rfidUserId', "");
 			// Blink grønn farge ved lagring OK.
 			//jQuery(userField).css("background-color", "#28a745!important");
 			jQuery(userField).css("background-color", "");

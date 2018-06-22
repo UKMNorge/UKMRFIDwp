@@ -28,12 +28,13 @@
 		<h3>Registrèr</h3>
 		<div class="row">
 			<div class="col-xs-12 col-md-6">
-				<a href="#" class="btn btn-success btn-block">Inn</a>
+				<button class="btn btn-success btn-block clickable scan" data-direction="in">Inn</button>
 				<br class="visible-xs-block" />
 			</div>
 			<div class="col-xs-12 col-md-6">
-				<a href="#" class="btn btn-primary btn-block">Ut</a>
+				<button class="btn btn-primary btn-block clickable scan" data-direction="out">Ut</button>
 			</div>
+			<input type="hidden" id="rfidUserId" name="rfidUserId" value="">
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-6">
@@ -44,17 +45,87 @@
 		<div class="well" id="resultsBox">
 			<ul class="list-group">
 				{% for person in persons %}
-					<a href="#" class="list-group-item" data-person-id="{{ person.getId() }}">
+					<li class="list-group-item personElement clickable" data-rfid="{{ person.getId() }}" id="rfid-{{ person.getId() }}">
 						{{ person.getName() }}
-					</a>
+					</li>
 				{% endfor %}
 			</ul>
 		</div>
 	</div>
 	
+	<script type="text/javascript">
 
-{% endblock %}
+	// Click a user
+	jQuery(".personElement").click(function(e) {
+		selectUser(e.target);	
+	});
+		
+	// Send AJAX
+	jQuery(".scan").click(function(e) {
+		var direction = jQuery(e.target).attr('data-direction');
+		var rfidUserId = jQuery("#rfidUserId").attr('data-rfidUserId');
+		var area = jQuery("#area").val();
 
-{% block javascripts %}
+		console.log('Direction: '+direction);
+		console.log('RFID-value: '+rfidUserId);
+		console.log('Area: '+area);
+
+		// Verify that user is selected first
+		if( undefined == area || undefined == rfidUserId) {
+			alert("Velg område og person først!");
+			return;
+		}
+
+		var postData = {
+			'action': 'RFID_ajax',
+			'subaction': 'scan',
+			'rfidUserId': jQuery("#rfidUserId").attr('data-rfidUserId'),
+			'direction': jQuery(e.target).attr('data-direction'),
+			'area': jQuery("#area").val()
+		};
 	
+		jQuery.post(
+			ajaxurl,
+			postData, 
+			function(response) {
+				updatedUser(response);
+			},
+			"json"
+		);
+	});
+
+	// Move data to fields, set bg-color
+	function selectUser(e) {
+		// Fjern bakgrunnsfarge på alle andre element
+		/*jQuery(e).
+			parent("ul").
+			children().
+			css("background-color", "");
+		jQuery(e).css("background-color", "#17a2b8!important");*/
+	
+		jQuery("#rfidUserId").val(jQuery(e).attr('data-rfidUserId'));
+	}
+
+	// Bruker oppdatert rett
+	function updatedUser(response) {
+		console.log(response);
+		if(response.success) {
+			console.log("Saved scan");
+			// Reset user-ID
+			jQuery("#rfidUserId").attr('data-rfidUserId', "");
+			// Finn brukerens felt.
+			var userField = "rfid-"+response.rfid;
+			// Blink grønn farge ved lagring OK.
+			jQuery(userField).css("background-color", "#28a745!important");
+			setTimeout(function (userField) {	
+				jQuery(userField).css("background-color", "");
+			}, 2000);
+		} else if (false == response.success) {
+			alert("Feil! \n" + response.message);
+		}
+		else {
+			alert("En ukjent feil oppsto!");
+		}
+	}
+	</script>
 {% endblock %}

@@ -170,7 +170,7 @@ class UKMRFID extends UKMmodul {
 			'RFID',
 			'Etterregistrering',
 			'Etterregistrering',
-			'administrator',
+			'ukmrfid_reports',
 			'RFIDbackup_registration',
 			['UKMRFID', 'adminDirectRegistration']
 		);

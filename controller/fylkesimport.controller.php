@@ -53,7 +53,7 @@ $leder_sql = new SQL("SELECT *
 					)
 				);
 $res = $leder_sql->run();
-while( $row = mysql_fetch_assoc( $res ) ) {
+while( $row = SQL::fetch( $res ) ) {
 	$personListe[ $row['pl_fylke'] ][] = new lederPersonIntermediary( $row );
 }
 

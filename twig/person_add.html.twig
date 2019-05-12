@@ -1,0 +1,33 @@
+{% extends "_layout.html.twig" %}
+
+{% block content %}
+	<h3>Personregistrering</h3>
+	<p class="help-text">OBS: Denne skal kun brukes til etterregistrering av personer som av en eller annen grunn ikke har blitt importert før. Vi lister dermed opp personer som finnes allerede når du fyller inn navn eller mobilnummer. Dobbeltsjekk at personen ikke finnes fra før.</p>
+
+	<div class="col-xs-12 col-sm-6">
+		<form method="POST">
+			<h3>Velg gruppe-tilhørighet</h3>
+			<select class="form-control" name="herd" id="herd">
+				{% for herd in herds %}
+					<option value="{{ herd.getId() }}">{{ herd.getName() }}</option>
+				{% else %}
+					<option value="">Ingen grupper tilgjengelig!</option>
+				{% endfor %}
+			</select>
+			<h3>Personinfo</h3>
+			<label>Fornavn</label>
+			<input type="text" class="form-control" name="personFornavn" id="personFornavn">
+			<label>Etternavn</label>
+			<input type="text" class="form-control" name="personEtternavn" id="personEtternavn">
+			<label>Mobil</label>
+			<input type="tel" class="form-control" name="number" id="personMobil">
+			<label>RFID</label>
+			<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
+			<p class="lead">Info lagres når du scanner ID-kortet.</p>
+
+		</form>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		
+	</div>
+{% endblock %}

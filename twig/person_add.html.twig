@@ -50,12 +50,14 @@
 		jQuery("#commitPerson").click(function(e) {
 			registerUser();
 		});
+		/*
 		jQuery("#addPersonForm").keyup(function(e) {
 			if(e.keyCode == 13) {
 				e.preventDefault();
 				registerUser();
 			}
 		});
+		*/
 	});
 	
 	// Funksjon som søker etter 
@@ -85,7 +87,6 @@
 
 	// Når bruker faktisk registreres.
 	function registerUser() {
-		console.log("1");
 		var personFornavn =	jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
@@ -104,7 +105,6 @@
 		};
 
 		console.log(postData);
-		console.log("2");
 		jQuery.post(
 			ajaxurl,
 			postData,
@@ -115,12 +115,10 @@
 			"json"
 		);
 
-		console.log("3");
 		jQuery("#personFornavn").val("");
 		jQuery("#personEtternavn").val("");
 		jQuery("#personMobil").val("");
 		jQuery("#rfidValue").val("");
-		console.log("4");
 	}
 	</script>
 {% endblock %}

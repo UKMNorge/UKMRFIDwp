@@ -34,14 +34,17 @@
 	<script type="text/javascript">
 	// Når fornavn, etternavn eller mobilnummer oppdateres, trigg et nytt søk etter personer som matcher.
 	jQuery(document).ready(function() {
-		jQuery("#personMobil").change(function() {
-			countMatchingPersons();
+		jQuery("#personMobil").change(function(e) {
+			if(e.originalEvent)
+				countMatchingPersons();
 		});
-		jQuery("#personFornavn").change(function() {
-			countMatchingPersons();
+		jQuery("#personFornavn").change(function(e) {
+			if(e.originalEvent)
+				countMatchingPersons();
 		});
-		jQuery("#personEtternavn").change(function() {
-			countMatchingPersons();
+		jQuery("#personEtternavn").change(function(e) {
+			if(e.originalEvent)
+				countMatchingPersons();
 		});
 
 		jQuery("#commitPerson").click(function(e) {

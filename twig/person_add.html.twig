@@ -85,10 +85,11 @@
 
 	// Når bruker faktisk registreres.
 	function registerUser() {
+		console.log("1");
 		var personFornavn =	jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
-		var herdid = jQuery("#herd").val();
+		//var herdid = jQuery("#herd").val();
 		var rfid = jQuery("#rfidValue").val();
 
 		var postData = {
@@ -98,11 +99,12 @@
 			'personFornavn': personFornavn,
 			'personEtternavn': personEtternavn,
 			'personMobil': personMobil,
-			'herd': herd,
+		//	'herd': herdid,
 			'rfidValue': rfid
 		};
 
 		console.log(postData);
+		console.log("2");
 		jQuery.post(
 			ajaxurl,
 			postData,
@@ -113,11 +115,12 @@
 			"json"
 		);
 
+		console.log("3");
 		jQuery("#personFornavn").val("");
 		jQuery("#personEtternavn").val("");
 		jQuery("#personMobil").val("");
-		jQuery("#herd").val("");
 		jQuery("#rfidValue").val("");
+		console.log("4");
 	}
 	</script>
 {% endblock %}

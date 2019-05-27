@@ -5,7 +5,7 @@
 	<p class="help-text">OBS: Denne skal kun brukes til etterregistrering av personer som av en eller annen grunn ikke har blitt importert før. Vi lister dermed opp personer som finnes allerede når du fyller inn navn eller mobilnummer. Dobbeltsjekk at personen ikke finnes fra før.</p>
 
 	<div class="col-xs-12 col-sm-6">
-		<form method="POST">
+		<form method="POST" id="addPersonForm">
 			<h3>Velg gruppe-tilhørighet</h3>
 			<select class="form-control" name="herd" id="herd">
 				{% for herd in herds %}
@@ -23,11 +23,97 @@
 			<input type="tel" class="form-control" name="number" id="personMobil">
 			<label>RFID</label>
 			<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
-			<p class="lead">Info lagres når du scanner ID-kortet.</p>
-
+			<p class="font-weight-bold">Info lagres når du scanner ID-kortet.</p>
+			<button id="commitPerson" class="btn btn-large btn-success">eller trykk her</button>
 		</form>
 	</div>
 	<div class="col-xs-12 col-sm-6">
 		
 	</div>
+
+	<script type="text/javascript">
+	// Når fornavn, etternavn eller mobilnummer oppdateres, trigg et nytt søk etter personer som matcher.
+	jQuery(document).ready(function() {
+		jQuery("#personMobil").change(function() {
+			countMatchingPersons();
+		});
+		jQuery("#personFornavn").change(function() {
+			countMatchingPersons();
+		});
+		jQuery("#personEtternavn").change(function() {
+			countMatchingPersons();
+		});
+
+		jQuery("#commitPerson").click(function(e) {
+			registerUser();
+		});
+		jQuery("#addPersonForm").keyup(function(e) {
+			if(e.keyCode == 13) {
+				e.preventDefault();
+				registerUser();
+			}
+		});
+	});
+	
+	// Funksjon som søker etter 
+	function countMatchingPersons() {
+		var personFornavn =	jQuery("#personFornavn").val();
+		var personEtternavn =	jQuery("#personEtternavn").val();
+		var personMobil =	jQuery("#personMobil").val();
+
+		var postData = {
+			'action': 'RFID_ajax',
+			'subaction': 'search',
+			'personFornavn': personFornavn,
+			'personEtternavn': personEtternavn,
+			'personMobil': personMobil
+		};
+
+		jQuery.post(
+			ajaxurl,
+			postData,
+			function(response) {
+				console.log("Search response:");
+				console.log(response);
+			},
+			"json"
+		);
+	}
+
+	// Når bruker faktisk registreres.
+	function registerUser() {
+		var personFornavn =	jQuery("#personFornavn").val();
+		var personEtternavn =	jQuery("#personEtternavn").val();
+		var personMobil =	jQuery("#personMobil").val();
+		var herdid = jQuery("#herd").val();
+		var rfid = jQuery("#rfidValue").val();
+
+		var postData = {
+			'action': 'RFID_ajax',
+			'subaction': 'search',
+			'personFornavn': personFornavn,
+			'personEtternavn': personEtternavn,
+			'personMobil': personMobil,
+			'herd': herd,
+			'rfidValue': rfid
+		}
+
+		console.log(postData);
+		jQuery.post(
+			ajaxurl,
+			postData,
+			function(response) {
+				console.log("User registered?");
+				console.log(response);
+			}, 
+			"json"
+		);
+
+		jQuery("#personFornavn").val("");
+		jQuery("#personEtternavn").val("");
+		jQuery("#personMobil").val("");
+		jQuery("#herd").val("");
+		jQuery("#rfidValue").val("");
+	}
+	</script>
 {% endblock %}

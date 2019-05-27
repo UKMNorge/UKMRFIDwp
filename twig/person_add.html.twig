@@ -5,7 +5,7 @@
 	<p class="help-text">OBS: Denne skal kun brukes til etterregistrering av personer som av en eller annen grunn ikke har blitt importert før. Vi lister dermed opp personer som finnes allerede når du fyller inn navn eller mobilnummer. Dobbeltsjekk at personen ikke finnes fra før.</p>
 
 	<div class="col-xs-12 col-sm-6">
-		<form method="POST" id="addPersonForm">
+		<form id="addPersonForm">
 			<h3>Velg gruppe-tilhørighet</h3>
 			<select class="form-control" name="herd" id="herd">
 				{% for herd in herds %}
@@ -90,7 +90,8 @@
 
 		var postData = {
 			'action': 'RFID_ajax',
-			'subaction': 'search',
+			'subaction': 'registerPerson',
+			'foreign-id': 'single-insert',
 			'personFornavn': personFornavn,
 			'personEtternavn': personEtternavn,
 			'personMobil': personMobil,

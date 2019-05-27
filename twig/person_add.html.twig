@@ -83,8 +83,8 @@
 	// Når bruker faktisk registreres.
 	function registerUser() {
 		var personFornavn =	jQuery("#personFornavn").val();
-		var personEtternavn =	jQuery("#personEtternavn").val();
-		var personMobil =	jQuery("#personMobil").val();
+		var personEtternavn = jQuery("#personEtternavn").val();
+		var personMobil = jQuery("#personMobil").val();
 		var herdid = jQuery("#herd").val();
 		var rfid = jQuery("#rfidValue").val();
 
@@ -97,7 +97,7 @@
 			'personMobil': personMobil,
 			'herd': herd,
 			'rfidValue': rfid
-		}
+		};
 
 		console.log(postData);
 		jQuery.post(

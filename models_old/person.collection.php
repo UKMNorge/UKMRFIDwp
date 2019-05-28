@@ -15,4 +15,13 @@ class PersonColl extends RFIDColl {
 		$object_class = str_replace('Coll', '', get_called_class());
 		return new $object_class( $row );
 	}
+
+	public static function countMatching($firstname, $lastname, $phone) {
+		$row_count = POSTGRES::getResults( 
+			"SELECT COUNT('rfid') FROM ". self::TABLE_NAME ." WHERE 
+				CAST(phone AS TEXT) LIKE '$1%' AND
+				last_name LIKE '$2%' AND
+				first_name LIKE '$3%'", [$phone, $lastname, $firstname]);
+		return $row_count;
+	}
 }

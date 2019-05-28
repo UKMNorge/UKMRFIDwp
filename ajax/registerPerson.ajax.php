@@ -6,7 +6,7 @@ use Exception;
 require_once( 'UKM/postgres.class.php');
 POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 
-// Todo: Registrer person
+// Registrer person
 $foreign_id = $_POST['foreignId'];
 $person_fornavn = $_POST['personFornavn'];
 $person_etternavn = $_POST['personEtternavn'];
@@ -16,7 +16,6 @@ $rfidValue = $_POST['rfidValue'];
 
 $person = null;
 
-
 require_once(UKMRFID_INCLUDE_PATH .'person.class.php');
 require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
 // Sjekk om personen finnes og skal oppdateres
@@ -24,7 +23,7 @@ try {
 	$person = PersonColl::getByForeignId($foreign_id);
 }
 catch(Exception $e) {
-	// Only means that we didn't find a row
+	// Only means that we didn't find a row, which is allowed.
 	\UKMRFID::addResponseData('info', "Ignored an exception when getting by Foreign ID");
 }	
 

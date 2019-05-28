@@ -185,7 +185,8 @@ class UKMRFID extends UKMmodul {
 		try {
 			$supported_actions = [
 				'registerPerson',
-				'scan'
+				'scan',
+				'search'
 			];
 			
 			if( in_array( $_POST['subaction'], $supported_actions ) ) {

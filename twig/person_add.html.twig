@@ -27,7 +27,7 @@
 			<button id="commitPerson" class="btn btn-large btn-success">eller trykk her</button>
 		</form>
 		<div class="alert alert-success" id="registerSuccess">Bruker registrert!</div>
-		<div class="alert alert-danger" id="registerFailure">Klarte ikke å registrere brukeren. Feilmelding:</div>
+		<div class="alert alert-danger" id="registerFailure">Klarte ikke å registrere brukeren. Feilmelding: <span id="registerError"></span></div>
 		<div class="alert alert-info" id="registerInfo"></div>
 	</div>
 
@@ -118,10 +118,12 @@
 					jQuery("#rfidValue").val("");
 
 					jQuery("#registerSuccess").show();
-					jQuery("#registerInfo").show();
-					jQuery("#registerInfo").html(response.info);
 				} else {
 					jQuery("#registerFailure").show();
+					jQuery("#registerError").html(response.message);
+				}
+
+				if(response.info) {
 					jQuery("#registerInfo").show();
 					jQuery("#registerInfo").html(response.info);
 				}

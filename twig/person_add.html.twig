@@ -119,11 +119,11 @@
 
 					jQuery("#registerSuccess").show();
 					jQuery("#registerInfo").show();
-					jQuery("#registerInfo").innerHTML(response.info);
+					jQuery("#registerInfo").html(response.info);
 				} else {
 					jQuery("#registerFailure").show();
 					jQuery("#registerInfo").show();
-					jQuery("#registerInfo").innerHTML(response.info);
+					jQuery("#registerInfo").html(response.info);
 				}
 			}, 
 			"json"

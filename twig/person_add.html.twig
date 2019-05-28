@@ -59,9 +59,10 @@
 	
 	// Funksjon som søker etter 
 	function countMatchingPersons() {
+		console.log("Søker...");
 		var personFornavn =	jQuery("#personFornavn").val();
-		var personEtternavn =	jQuery("#personEtternavn").val();
-		var personMobil =	jQuery("#personMobil").val();
+		var personEtternavn = jQuery("#personEtternavn").val();
+		var personMobil = jQuery("#personMobil").val();
 
 		var postData = {
 			'action': 'RFID_ajax',
@@ -75,7 +76,7 @@
 			ajaxurl,
 			postData,
 			function(response) {
-				console.log("Search response:");
+				console.log("Response:");
 				console.log(response);
 			},
 			"json"
@@ -91,18 +92,18 @@
 		var personFornavn =	jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
-		//var herdid = jQuery("#herd").val();
+		var herdid = jQuery("#herd").val();
 		var rfid = jQuery("#rfidValue").val();
 
 		var postData = {
 			'action': 'RFID_ajax',
 			'subaction': 'registerPerson',
-			'foreign-id': 'single-insert',
 			'personFornavn': personFornavn,
 			'personEtternavn': personEtternavn,
 			'personMobil': personMobil,
-		//	'herd': herdid,
+			'herd': herdid,
 			'rfidValue': rfid
+			// Skal foreignId være med må den ha noe som gjør den unik - hvis ikke vil alle registreringer kun oppdatere èn person med nye verdier.
 		};
 
 		console.log(postData);

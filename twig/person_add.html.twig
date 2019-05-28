@@ -34,6 +34,10 @@
 	<script type="text/javascript">
 	// Når fornavn, etternavn eller mobilnummer oppdateres, trigg et nytt søk etter personer som matcher.
 	jQuery(document).ready(function() {
+		jQuery("#registerSuccess").hide();
+		jQuery("#registerFailure").hide();
+		jQuery("#registerInfo").hide();
+
 		jQuery("#personMobil").change(function(e) {
 			if(e.originalEvent)
 				countMatchingPersons();
@@ -80,6 +84,10 @@
 
 	// Når bruker faktisk registreres.
 	function registerUser() {
+		jQuery("#registerSuccess").hide();
+		jQuery("#registerFailure").hide();
+		jQuery("#registerInfo").hide();
+
 		var personFornavn =	jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
@@ -110,12 +118,12 @@
 					jQuery("#rfidValue").val("");
 
 					jQuery("#registerSuccess").show();
-					jQuery("#registerFailure").hide();
-					jQuery("#registerInfo").setText(response.info);
+					jQuery("#registerInfo").show();
+					jQuery("#registerInfo").innerHTML(response.info);
 				} else {
-					jQuery("#registerSuccess").hide();
 					jQuery("#registerFailure").show();
-					jQuery("#registerInfo").setText(response.info);
+					jQuery("#registerInfo").show();
+					jQuery("#registerInfo").innerHTML(response.info);
 				}
 			}, 
 			"json"

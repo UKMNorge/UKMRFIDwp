@@ -57,12 +57,16 @@
 		});
 	});
 	
-	// Funksjon som søker etter 
+	// Funksjon som søker etter personer med matchende data.
 	function countMatchingPersons() {
-		console.log("Søker...");
 		var personFornavn =	jQuery("#personFornavn").val();
 		var personEtternavn = jQuery("#personEtternavn").val();
 		var personMobil = jQuery("#personMobil").val();
+
+		if(personFornavn == "" && personEtternavn == "" && personMobil == "") {
+			jQuery("#registerInfo").hide();
+			return;
+		}
 
 		var postData = {
 			'action': 'RFID_ajax',

@@ -77,7 +77,10 @@
 			postData,
 			function(response) {
 				console.log(response);
-				jQuery("#registerInfo").html("Fant "+response.matchingPersons+" personer med samme navn og mobilnummer.");
+				if(response.success) {
+					jQuery("#registerInfo").html("Fant "+response.matchingPersons+" personer med samme navn og mobilnummer.");
+					jQuery("#registerInfo").show();	
+				}
 			},
 			"json"
 		);

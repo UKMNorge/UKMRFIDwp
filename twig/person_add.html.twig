@@ -76,8 +76,8 @@
 			ajaxurl,
 			postData,
 			function(response) {
-				console.log("Response:");
 				console.log(response);
+				jQuery("#registerInfo").html("Fant "+response.matchingPersons+" personer med samme navn og mobilnummer.");
 			},
 			"json"
 		);

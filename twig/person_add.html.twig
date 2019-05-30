@@ -16,13 +16,13 @@
 			</select>
 			<h3>Personinfo</h3>
 			<label>Fornavn</label>
-			<input type="text" class="form-control" name="personFornavn" id="personFornavn">
+			<input type="text" class="form-control" name="personFornavn" id="personFornavn" tabindex="1">
 			<label>Etternavn</label>
-			<input type="text" class="form-control" name="personEtternavn" id="personEtternavn">
+			<input type="text" class="form-control" name="personEtternavn" id="personEtternavn" tabindex="2">
 			<label>Mobil</label>
 			<input type="tel" class="form-control" name="number" id="personMobil">
 			<label>RFID</label>
-			<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off">
+			<input type="text" class="form-control" name="rfidValue" id="rfidValue" autocomplete="off" tabindex="3">
 			<p class="font-weight-bold">Info lagres når du scanner ID-kortet.</p>
 			<button id="commitPerson" class="btn btn-large btn-success">eller trykk her</button>
 		</form>
@@ -37,6 +37,8 @@
 		jQuery("#registerSuccess").hide();
 		jQuery("#registerFailure").hide();
 		jQuery("#registerInfo").hide();
+
+		jQuery("#personFornavn").focus();
 
 		jQuery("#personMobil").change(function(e) {
 			if(e.originalEvent)

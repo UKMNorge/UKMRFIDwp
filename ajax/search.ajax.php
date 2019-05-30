@@ -10,5 +10,5 @@ require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
 // Start søk etter person
 $rowCount = PersonColl::countMatching($_POST['personFornavn'], $_POST['personEtternavn'], $_POST['personMobil']);
 
-\UKMRFID::addResponseData('matchingPersons', $rowCount[0]->count);
+\UKMRFID::addResponseData('matchingPersons', $rowCount[0]);
 \UKMRFID::addResponseData('success', true );

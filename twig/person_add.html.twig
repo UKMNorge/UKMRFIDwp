@@ -78,7 +78,7 @@
 			function(response) {
 				console.log(response);
 				if(response.success) {
-					jQuery("#registerInfo").html("Fant "+response.matchingPersons+" personer med samme navn og mobilnummer.");
+					jQuery("#registerInfo").html("Fant "+response.matchingPersons.count+" personer med samme navn og mobilnummer.");
 					jQuery("#registerInfo").show();	
 				}
 			},

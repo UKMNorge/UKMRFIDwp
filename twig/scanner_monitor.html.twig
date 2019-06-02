@@ -1,0 +1,14 @@
+{% extends "_layout.html.twig" %}
+
+{% block content %}
+	<h3>{{ selectedArea is defined ? selectedArea : 'Velg område' }}</h3>
+	{% if selectedArea is defined %}
+	{% endif %}
+
+	<div class="col-12">
+
+		{% for scanner in scanners %}
+			<div class="col-3 scannerBox" id="scannerBox-{{ scanner.id }}"></div>
+		{% endfor %}
+	</div>
+{% endblock %}

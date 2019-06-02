@@ -15,4 +15,4 @@ $scanner = new stdClass();
 $scanner->id = 1;
 $scanners = array($scanner);
 
-\UKMRFID::addViewData( 'scanners',
+\UKMRFID::addViewData( 'scanners', $scanners );

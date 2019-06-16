@@ -4,6 +4,7 @@ namespace UKMNorge\RFID;
 use Exception;
 
 require_once(UKMRFID_INCLUDE_PATH .'area.collection.php');
+require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	switch( $_POST['action'] ) {

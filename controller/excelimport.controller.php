@@ -5,54 +5,78 @@ namespace UKMNorge\RFID;
 use fylker;
 use monstringer_v2;
 use stdClass;
-use PHPExcel\PHPExcel;
-use PHPExcel_IOFactory;
+use UKMRFID;
+use Exception;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception as PHPOfficeException;
 
 $mobileColumn = "C";
 $firstNameColumn = "A";
 $lastNameColumn = "B";
 $herdColumn = "D";
 
-require_once('PHPExcel/PHPExcel.php');
-if (UKM_HOSTNAME != 'ukm.dev') {
-	require_once('PHPExcel/IOFactory.php');
-}
+$fileName = $_FILES['excelImportFile']['name'];
+$fileExt = strtolower(
+	substr( 
+		$fileName,
+		strrpos(
+			$fileName,
+			'.'
+		)+1
+	)
+);
+$fileType = ucfirst( $fileExt );
+
+require_once('UKM/inc/excel.inc.php');
+
+
 
 // Hvis vi har mottatt en fil:
-try {
-	if ( null != $_FILES['excelImportFile'] ) {
-		// Global personliste 
-		$personListe = array();
-		// Pakk ut Excel-fil
-		$excelDoc = PHPExcel_IOFactory::load($_FILES['excelImportFile']['tmp_name']);
-		$worksheet = $excelDoc->getSheet(0);
-		// First row is headers
-		$row = 2;
-		// Loop through alle linjer der navnet ikke er tomt.
-		while ($worksheet->getCell($firstNameColumn.$row)->getValue() != "") {
-
-			$person = new stdClass();
-			$person->id = $row;
-			$person->fornavn = $worksheet->getCell($firstNameColumn.$row)->getValue();
-			$person->etternavn = $worksheet->getCell($lastNameColumn.$row)->getValue();
-			$person->mobil = $worksheet->getCell($mobileColumn.$row)->getValue();
-			$person->herd = $worksheet->getCell($herdColumn.$row)->getValue();
-			
-			$personListe[] = $person;
-
-			$row++;
-		}
-		
-		\UKMRFID::addViewData('filnavn', $_FILES['excelImportFile']['name']);
-		\UKMRFID::addViewData('random', hash('md5', $_FILES['excelImportFile']['tmp_name']));
-		\UKMRFID::addViewData('personListe', $personListe);	
+if ( null != $_FILES['excelImportFile'] ) {
+	try {
+		$reader = IOFactory::createReader( $fileType );	
+		$doRead = true;
+	} catch( PHPOfficeException $e ) {
+		$doRead = false;
+		UKMRFID::addViewData('error', array('level'=>'danger', 'message'=>"Klarte ikke å lese filen du lastet opp! Ukjent filtype:" . $e->getMessage()));
 	}
-}
-catch (Exception $e) {
-	\UKMRFID::addViewData('error', array('level'=>'danger', 'message'=>"Klarte ikke å lese filen du lastet opp!"));
+
+	// Hvis vi klarer å lese filen
+	if( $doRead ) {
+		try {
+			// Global personliste 
+			$personListe = array();
+			// Pakk ut Excel-fil
+			$excelDoc = $reader->load($_FILES['excelImportFile']['tmp_name']);
+			$worksheet = $excelDoc->getSheet(0);
+			// First row is headers
+			$row = 2;
+			// Loop through alle linjer der navnet ikke er tomt.
+			while ($worksheet->getCell($firstNameColumn.$row)->getValue() != "") {
+
+				$person = new stdClass();
+				$person->id = $row;
+				$person->fornavn = $worksheet->getCell($firstNameColumn.$row)->getValue();
+				$person->etternavn = $worksheet->getCell($lastNameColumn.$row)->getValue();
+				$person->mobil = $worksheet->getCell($mobileColumn.$row)->getValue();
+				$person->herd = $worksheet->getCell($herdColumn.$row)->getValue();
+				
+				$personListe[] = $person;
+
+				$row++;
+			}
+			
+			UKMRFID::addViewData('filnavn', $_FILES['excelImportFile']['name']);
+			UKMRFID::addViewData('random', hash('md5', $_FILES['excelImportFile']['tmp_name']));
+			UKMRFID::addViewData('personListe', $personListe);	
+		}
+		catch (Exception $e) {
+			UKMRFID::addViewData('error', array('level'=>'danger', 'message'=>"Klarte ikke å lese filen du lastet opp!"));
+		}
+	}
 }
 
 require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 $herds = HerdColl::GetAllByName();
 
-\UKMRFID::addViewData('herds', $herds);
+UKMRFID::addViewData('herds', $herds);

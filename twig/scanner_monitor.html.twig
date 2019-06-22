@@ -2,13 +2,31 @@
 
 {% block content %}
 	<h3>{{ selectedArea is defined ? selectedArea : 'Velg område' }}</h3>
-	{% if selectedArea is defined %}
+	{% if selectedArea is not defined %}
+
 	{% endif %}
 
 	<div class="col-12">
 
 		{% for scanner in scanners %}
-			<div class="col-3 scannerBox" id="scannerBox-{{ scanner.id }}"></div>
+			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
+				<div class="card-body">
+			        <span class="scannerInfo"></span>
+			        <span class="personInfo"></span>
+			        <span class="personHerd"></span>
+			        <div class="infoBox">
+			            <div class="col-1 editButton">E</div>
+			            <div class="col-11">
+			                <span class="scannerDirection">UT</span><br>
+			                ID: <span class="scannerID"></span>
+			            </div>
+			        </div>
+			    </div>
+			</div>
 		{% endfor %}
 	</div>
+
+	<script type="text/javascript">
+
+	</script>
 {% endblock %}

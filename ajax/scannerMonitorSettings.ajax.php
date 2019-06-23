@@ -12,16 +12,20 @@ if(!isset($_COOKIE["session_id"])) {
 	$session_id = $_COOKIE["session_id"];
 }
 
+require_once( 'UKM/postgres.class.php');
+POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
+
 // TODO: Move upwards
 require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
 
 // Will only dump on next load.
-var_dump("Session_ID:".$session_id);
+var_dump("Session_ID: ".$session_id);
 
 // Check table for list of scanners
 
 
 // Process posted settings:
+
 // Are there any scanners in the list from the frontend?
 var_dump(MonitorAccessColl::getForSessionId($session_id));
 

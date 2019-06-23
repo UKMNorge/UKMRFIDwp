@@ -33,18 +33,28 @@
 			'action': 'RFID_ajax',
 			'subaction': 'scannerMonitorSettings'
 		};
-		jQuery().post(
+		jQuery.post(
 			ajaxurl,
 			postData,
 			function(response) {
 				console.log(response);
+				if(response.success) {
+					setupSSE(response.scannerList);
+				}
 			},
 			"json"
 		);
 	});
-		var scannerEventSource = new EventSource("rfidnode.ukm.no/stream/239/");
+		
+
+	function setupSSE(scannerList) {
+		console.log(scannerList);
+
+		var scannerEventSource = new EventSource("rfidnode.ukm.no/stream/" + scannerList);
 		scannerEventSource.onmessage = function(event) {
 			console.log(event);
-		};
+		};	
+	}
+	
 	</script>
 {% endblock %}

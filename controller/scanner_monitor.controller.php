@@ -15,4 +15,6 @@ $scanner = new stdClass();
 $scanner->id = 1;
 $scanners = array($scanner);
 
+
+var_dump(get_include_path());
 \UKMRFID::addViewData( 'scanners', $scanners );

@@ -15,7 +15,7 @@ if( !class_exists('UKMModul') ) {
 }
 
 if(is_admin()) {
-	add_action('init', 'setSessionCookieForScannerMonitor');
+	add_action('init', ['UKMRFID', 'setSessionCookieForScannerMonitor']);
 	add_action('network_admin_menu', ['UKMRFID','meny']);
 	add_action('admin_menu', ['UKMRFID','meny']);
 

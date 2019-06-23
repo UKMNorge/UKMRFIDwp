@@ -15,7 +15,6 @@ if( !class_exists('UKMModul') ) {
 }
 
 if(is_admin()) {
-	add_action('init', ['UKMRFID', 'setSessionCookieForScannerMonitor']);
 	add_action('network_admin_menu', ['UKMRFID','meny']);
 	add_action('admin_menu', ['UKMRFID','meny']);
 
@@ -39,13 +38,6 @@ class UKMRFID extends UKMmodul {
 		parent::init(null);
 		require_once( 'UKM/postgres.class.php');
 		POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
-	}
-
-	public static function setSessionCookieForScannerMonitor() {
-		if(!isset($_COOKIE["session_id"])) {
-   			setcookie("session_id", uniqid());
-		}
-		var_dump($_COOKIE["session_id"]);
 	}
 	
 	/**
@@ -194,7 +186,8 @@ class UKMRFID extends UKMmodul {
 			$supported_actions = [
 				'registerPerson',
 				'scan',
-				'search'
+				'search',
+				'scannerMonitorSettings'
 			];
 			
 			if( in_array( $_POST['subaction'], $supported_actions ) ) {

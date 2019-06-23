@@ -7,7 +7,6 @@
 	{% endif %}
 
 	<div class="col-12">
-
 		{% for scanner in scanners %}
 			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
 				<div class="card-body">
@@ -28,5 +27,24 @@
 
 	<script type="text/javascript">
 
+	jQuery( document ).ready(function() {
+		console.log("Checking for session cookie");
+		var postData = {
+			'action': 'RFID_ajax',
+			'subaction': 'scannerMonitorSettings'
+		};
+		jQuery().post(
+			ajaxurl,
+			postData,
+			function(response) {
+				console.log(response);
+			},
+			"json"
+		);
+	});
+		var scannerEventSource = new EventSource("rfidnode.ukm.no/stream/239/");
+		scannerEventSource.onmessage = function(event) {
+			console.log(event);
+		};
 	</script>
 {% endblock %}

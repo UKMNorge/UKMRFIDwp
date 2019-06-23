@@ -1,6 +1,10 @@
 <?php
 
+namespace UKMNorge\RFID;
+use Exception;
+
 // Sett session_id cookie if not set
+// TODO: Finn navnet på denne - må be Marius om tilgang til repo.
 if(!isset($_COOKIE["session_id"])) {
 	$session_id = uniqid();
 	setcookie("session_id", $session_id, 0, "/", ".ukm.no");
@@ -8,11 +12,14 @@ if(!isset($_COOKIE["session_id"])) {
 	$session_id = $_COOKIE["session_id"];
 }
 
+// TODO: Move upwards
+require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
+
 // Will only dump on next load.
-var_dump($session_id);
+var_dump("Session_ID:".$session_id);
 
 // Check table for list of scanners
-require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
+
 
 // Process posted settings:
 // Are there any scanners in the list from the frontend?

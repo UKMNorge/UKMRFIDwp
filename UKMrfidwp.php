@@ -130,7 +130,7 @@ class UKMRFID extends UKMmodul {
 			'RFID',
 			'Scannere',
 			'Scannere',
-			'administrator',
+			'ukmrfid_reports',
 			'RFIDscanners',
 			['UKMRFID', 'adminDirectScanners']
 		);
@@ -150,7 +150,7 @@ class UKMRFID extends UKMmodul {
 			'RFID',
 			'Personer',
 			'Personer',
-			'administrator',
+			'ukmrfid_reports',
 			'RFIDpersons',
 			['UKMRFID', 'adminDirectPersons']
 		);

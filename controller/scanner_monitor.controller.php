@@ -18,6 +18,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Oppdater scannerliste.
 }
 
-$session_id = $_COOKIE["session"];
-$selectedScanners = MonitorAccessColl::getForSessionId($session_id);
-\UKMRFID::addViewData( 'selectedScanners', $selectedScanners);
+try {
+	$session_id = $_COOKIE["session"];
+	$selectedScanners = MonitorAccessColl::getForSessionId($session_id);
+	\UKMRFID::addViewData( 'selectedScanners', $selectedScanners);	
+} catch( Exception $e ) {
+
+}

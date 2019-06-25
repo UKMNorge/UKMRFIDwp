@@ -5,11 +5,11 @@ use Exception;
 
 // Sett session_id cookie if not set
 // TODO: Finn navnet på denne - må be Marius om tilgang til repo.
-if(!isset($_COOKIE["session_id"])) {
+if(!isset($_COOKIE["kiosksession"])) {
 	$session_id = uniqid();
-	setcookie("session_id", $session_id, 0, "/", ".ukm.no");
+	setcookie("kiosksession", $session_id, 0, "/", ".ukm.no");
 } else {
-	$session_id = $_COOKIE["session_id"];
+	$session_id = $_COOKIE["kiosksession"];
 }
 
 require_once( 'UKM/postgres.class.php');
@@ -20,7 +20,6 @@ require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
 
 // Check table for list of scanners
 $scannerList = MonitorAccessColl::getForSessionId($session_id);
-
 $postedScannerList = $_POST["scannerList"];
 
 // Process posted settings:

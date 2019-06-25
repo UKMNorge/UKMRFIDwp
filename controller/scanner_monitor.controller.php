@@ -23,7 +23,7 @@ try {
 	$selectedScanners = array();
 	$monitorAccesses = MonitorAccessColl::getForSessionId($session_id);
 	foreach($monitorAccesses as $monitor) {
-		$selectedScanners[] = $monitor->getScanner();
+		$selectedScanners[] = ScannerColl::getById($monitor->getScannerId());
 	}
 
 	\UKMRFID::addViewData( 'selectedScanners', $selectedScanners);	

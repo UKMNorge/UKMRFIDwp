@@ -20,14 +20,14 @@
 		{% for scanner in selectedScanners %}
 			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
 				<div class="card-body">
-			        <span class="scannerInfo"></span>
+			        <span class="scannerInfo">{{ scanner.getName() }}</span>
 			        <span class="personInfo"></span>
 			        <span class="personHerd"></span>
 			        <div class="infoBox">
 			            <div class="col-1 editButton">E</div>
 			            <div class="col-11">
-			                <span class="scannerDirection">UT</span><br>
-			                ID: <span class="scannerID"></span>
+			                <span class="scannerDirection">{{ scanner.getDirection() }}</span><br>
+			                ID: <span class="scannerID">{{ scanner.getGUID()|split('', 6)|first }}</span>
 			            </div>
 			        </div>
 			    </div>

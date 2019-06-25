@@ -3,8 +3,9 @@
 {% block content %}
 	<h3>Velg Scanner</h3>
 	<div class="col-12">
-		<form method="POST" action="addScanner">
-			<select class="form-control">
+		<form method="POST">
+			<input type="hidden" name="addScanner" value="true">
+			<select class="form-control" name="scannerId"> 
 			{% for scanner in scanners %}
 				<option id="{{ scanner.getId() }}">{{ scanner.getName() }}</option>
 			{% else %}

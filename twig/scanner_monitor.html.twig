@@ -1,11 +1,7 @@
 {% extends "_layout.html.twig" %}
 
 {% block content %}
-	<h3>{{ selectedArea is defined ? selectedArea : 'Velg område' }}</h3>
-	{% if selectedArea is not defined %}
-
-	{% endif %}
-
+	<h3>Velg Scanner</h3>
 	<div class="col-12">
 		<form method="POST" action="addScanner">
 			<select class="form-control">

@@ -17,6 +17,6 @@ $scanners = ScannerColl::getAllByName();
 $selectedScanners = array();
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$session_id = $_COOKIE["session"];
-	$scannerList = MonitorAccessColl::getForSessionId($session_id);
+	$selectedScanners = MonitorAccessColl::getForSessionId($session_id);
 }
 \UKMRFID::addViewData( 'selectedScanners', $selectedScanners);

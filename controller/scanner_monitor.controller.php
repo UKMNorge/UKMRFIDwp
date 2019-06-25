@@ -20,7 +20,12 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 try {
 	$session_id = $_COOKIE["session"];
-	$selectedScanners = MonitorAccessColl::getForSessionId($session_id);
+	$selectedScanners = array();
+	$monitorAccesses = MonitorAccessColl::getForSessionId($session_id);
+	foreach($monitorAccesses as $monitor) {
+		$selectedScanners[] = $monitor->getScanner();
+	}
+
 	\UKMRFID::addViewData( 'selectedScanners', $selectedScanners);	
 } catch( Exception $e ) {
 

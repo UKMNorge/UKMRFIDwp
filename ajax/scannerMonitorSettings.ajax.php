@@ -5,11 +5,11 @@ use Exception;
 
 // Sett session_id cookie if not set
 // TODO: Finn navnet på denne - må be Marius om tilgang til repo.
-if(!isset($_COOKIE["kiosksession"])) {
+if(!isset($_COOKIE["session"])) {
 	$session_id = uniqid();
-	setcookie("kiosksession", $session_id, 0, "/", ".ukm.no");
+	setcookie("session", $session_id, 0, "/", ".ukm.no");
 } else {
-	$session_id = $_COOKIE["kiosksession"];
+	$session_id = $_COOKIE["session"];
 }
 
 require_once( 'UKM/postgres.class.php');

@@ -7,22 +7,29 @@
 	{% endif %}
 
 	<div class="col-12">
+		<select class="form-control">
 		{% for scanner in scanners %}
-			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
-				<div class="card-body">
-			        <span class="scannerInfo"></span>
-			        <span class="personInfo"></span>
-			        <span class="personHerd"></span>
-			        <div class="infoBox">
-			            <div class="col-1 editButton">E</div>
-			            <div class="col-11">
-			                <span class="scannerDirection">UT</span><br>
-			                ID: <span class="scannerID"></span>
-			            </div>
-			        </div>
-			    </div>
-			</div>
+			<option id="{{ scanner.getId() }}">scanner.getName()</option>
+		{% else %}
+			<option disabled>Ingen aktive scannere!</option>
 		{% endfor %}
+		</select>
+	</div>
+	<div class="col-12">
+		<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
+			<div class="card-body">
+		        <span class="scannerInfo"></span>
+		        <span class="personInfo"></span>
+		        <span class="personHerd"></span>
+		        <div class="infoBox">
+		            <div class="col-1 editButton">E</div>
+		            <div class="col-11">
+		                <span class="scannerDirection">UT</span><br>
+		                ID: <span class="scannerID"></span>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 	</div>
 
 	<script type="text/javascript">

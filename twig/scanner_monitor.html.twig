@@ -19,6 +19,7 @@
 		<h3>Valgte scannere:</h3>
 		{% for scanner in selectedScanners %}
 			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.getId() }}">
+				<span class="pull-right clickable close-icon" data-effect="fadeOut" id="delete-{{ scanner.getId() }}"><i class="fa fa-times"></i></span>
 				<div class="card-body">
 			        <span class="scannerInfo">{{ scanner.getName() }}</span>
 			        <span class="personInfo"></span>
@@ -39,6 +40,12 @@
 	<script type="text/javascript">
 
 	jQuery( document ).ready(function() {
+		jQuery(".close-icon").click(function(event) {
+			console.log("Deleting scanner" + jQuery(event.target).id());
+		});
+	});
+
+	jQuery( document ).ready(function() {
 		console.log("Checking for session cookie");
 		var postData = {
 			'action': 'RFID_ajax',
@@ -56,7 +63,6 @@
 			"json"
 		);
 	});
-		
 
 	function setupSSE(scannerList) {
 		console.log(scannerList);

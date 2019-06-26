@@ -15,6 +15,8 @@ POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 $scanners = ScannerColl::getAllByName();
 \UKMRFID::addViewData( 'scanners', $scanners );
 $session_id = $_COOKIE["session"];
+// Remove s:
+$session_id = substr($session_id, 2, count($session_id));
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Oppdater scannerliste.

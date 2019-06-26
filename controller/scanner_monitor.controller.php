@@ -13,13 +13,15 @@ POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 // Liste over alle scannere til velge-funksjon
 $scanners = ScannerColl::getAllByName();
 \UKMRFID::addViewData( 'scanners', $scanners );
+$session_id = $_COOKIE["session"];
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Oppdater scannerliste.
+	$scanner_id = $_POST['scannerId'];
+	$newMonitor = MonitorAccessColl::create($session_id, $scanner_id);
 }
 
 try {
-	$session_id = $_COOKIE["session"];
 	$selectedScanners = array();
 	$monitorAccesses = MonitorAccessColl::getForSessionId($session_id);
 	foreach($monitorAccesses as $monitor) {

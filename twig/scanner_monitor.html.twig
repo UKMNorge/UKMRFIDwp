@@ -71,9 +71,9 @@
 
 		var scannerEventSource = new EventSource(
 			"//rfidnode.ukm.no/stream/" + scanner_string + "/",
-			options = [
+			options = {
 				'withCredentials': true
-			]);
+		});
 		scannerEventSource.onmessage = function(event) {
 			console.log(event);
 		};	

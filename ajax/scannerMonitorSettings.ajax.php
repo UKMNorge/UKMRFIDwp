@@ -6,16 +6,15 @@ use Exception;
 // Sett session_id cookie if not set
 // TODO: Finn navnet på denne - må be Marius om tilgang til repo.
 if(!isset($_COOKIE["session"])) {
-	$session_id = uniqid();
+	$session_id = 's:'+uniqid();
 	setcookie("session", $session_id, 0, "/", ".ukm.no");
 } else {
 	$session_id = $_COOKIE["session"];
+	$session_id = substr($session_id, 2, strlen($session_id));
 }
 
 require_once( 'UKM/postgres.class.php');
 POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
-
-// TODO: Move upwards
 require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
 
 // Check table for list of scanners

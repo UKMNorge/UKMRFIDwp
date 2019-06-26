@@ -7,6 +7,7 @@ use stdClass;
 require_once(UKMRFID_INCLUDE_PATH .'scanner.collection.php');
 require_once(UKMRFID_INCLUDE_PATH .'area.collection.php');
 require_once( 'UKM/postgres.class.php');
+require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.class.php');
 require_once(UKMRFID_INCLUDE_PATH . 'monitoraccess.collection.php');
 POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 
@@ -23,7 +24,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 try {
 	$selectedScanners = array();
-	$monitorAccesses = MonitorAccessColl::getForSessionId($session_id);
+	$monitorAccesses = MonitorAccess::getForSessionId($session_id);
 	foreach($monitorAccesses as $monitor) {
 		$selectedScanners[] = ScannerColl::getById($monitor->getScannerId());
 	}

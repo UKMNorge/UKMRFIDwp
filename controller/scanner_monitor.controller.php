@@ -19,12 +19,12 @@ $session_id = $_COOKIE["session"];
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Oppdater scannerliste.
 	$scanner_id = $_POST['scannerId'];
-	$newMonitor = MonitorAccessColl::create($session_id, $scanner_id);
+	$newMonitor = MonitorAccess::create($session_id, $scanner_id);
 }
 
 try {
 	$selectedScanners = array();
-	$monitorAccesses = MonitorAccess::getForSessionId($session_id);
+	$monitorAccesses = MonitorAccessColl::getForSessionId($session_id);
 	foreach($monitorAccesses as $monitor) {
 		$selectedScanners[] = ScannerColl::getById($monitor->getScannerId());
 	}

@@ -16,7 +16,7 @@ $scanners = ScannerColl::getAllByName();
 \UKMRFID::addViewData( 'scanners', $scanners );
 $session_id = $_COOKIE["session"];
 // Remove s:
-$session_id = substr($session_id, 2, count($session_id));
+$session_id = substr($session_id, 2, strlen($session_id));
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	// Oppdater scannerliste.

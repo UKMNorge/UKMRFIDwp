@@ -7,7 +7,7 @@
 			<input type="hidden" name="addScanner" value="true">
 			<select class="form-control" name="scannerId"> 
 			{% for scanner in scanners %}
-				<option value="{{ scanner.getId() }}" id="{{ scanner.getId() }}">{{ scanner.getName() }}</option>
+				<option value="{{ scanner.getId() }}" id="{{ scanner.getId() }}">{{ scanner.getName() }} - {{ scanner.getId() }}</option>
 			{% else %}
 				<option disabled>Ingen aktive scannere!</option>
 			{% endfor %}
@@ -18,10 +18,11 @@
 	<div class="col-12">
 		<h3>Valgte scannere:</h3>
 		{% for scanner in selectedScanners %}
-			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.id }}">
+			<div class="col-xs-3 scannerBox card" id="scannerBox-{{ scanner.getId() }}">
 				<div class="card-body">
 			        <span class="scannerInfo">{{ scanner.getName() }}</span>
 			        <span class="personInfo"></span>
+			        <span class="timestamp"></span>
 			        <span class="personHerd"></span>
 			        <div class="infoBox">
 			            <div class="col-1 editButton"></div>
@@ -76,7 +77,19 @@
 		});
 		scannerEventSource.onmessage = function(event) {
 			console.log(event);
+			updateScannerWithRecentInfo(JSON.parse(event.data));
 		};	
+	}
+
+
+	// Accepts an object
+	function updateScannerWithRecentInfo($data) {
+		var scanner = data.scanner;
+		//$('scannerBox-'+scanner + ' personInfo').html(data.);
+		var date = new Date(data.time);
+		$('scannerBox-'+scanner ' timestamp').html(date.getHours()+":"+date.getMinutes() );
+
+
 	}
 	
 	</script>

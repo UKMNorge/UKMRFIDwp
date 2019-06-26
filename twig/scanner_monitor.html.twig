@@ -7,7 +7,7 @@
 			<input type="hidden" name="addScanner" value="true">
 			<select class="form-control" name="scannerId"> 
 			{% for scanner in scanners %}
-				<option id="{{ scanner.getId() }}">{{ scanner.getName() }}</option>
+				<option value="{{ scanner.getId() }}" id="{{ scanner.getId() }}">{{ scanner.getName() }}</option>
 			{% else %}
 				<option disabled>Ingen aktive scannere!</option>
 			{% endfor %}

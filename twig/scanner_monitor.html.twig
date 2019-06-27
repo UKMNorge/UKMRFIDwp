@@ -7,7 +7,7 @@
 			<input type="hidden" name="addScanner" value="true">
 			<select class="form-control" name="scannerId"> 
 			{% for scanner in scanners %}
-				<option value="{{ scanner.getId() }}" id="{{ scanner.getId() }}">{{ scanner.getName() }} - {{ scanner.getId() }}</option>
+				<option value="{{ scanner.getId() }}" id="{{ scanner.getId() }}">{{ scanner.getName() }} - {{ scanner.getId() }} - {{ scanner.getRegisterTime()|date("D d.m H:i") }}</option>
 			{% else %}
 				<option disabled>Ingen aktive scannere!</option>
 			{% endfor %}
@@ -98,11 +98,17 @@
 	// Accepts an object
 	function updateScannerWithRecentInfo(data) {
 		var scanner = data.scanner;
-		//$('scannerBox-'+scanner + ' personInfo').html(data.);
-		var date = new Date(data.time);
-		$('scannerBox-'+scanner +' timestamp').html(date.getHours()+":"+date.getMinutes() );
-
-
+		// Timestamp
+		if(data.hasOwnProperty('time')) {
+			var date = new Date(data.time);
+			$('scannerBox-'+scanner +' timestamp').html(date.getHours()+":"+date.getMinutes() );	
+		}
+		
+		// User:
+		if(data.hasOwnProperty('person_id')) {
+			console.log("Found scan!");
+			console.log(data);
+		}
 	}
 	
 	</script>

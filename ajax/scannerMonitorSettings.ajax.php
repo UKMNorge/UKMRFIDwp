@@ -43,7 +43,6 @@ if (
 	self::addResponseData('success', true);
 }
 
-
 // Add list of devices currently in table
 function updateList($posted, $current) {
 	var_dump($posted);

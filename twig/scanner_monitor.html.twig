@@ -84,7 +84,14 @@
 		scannerEventSource.onmessage = function(event) {
 			console.log(event);
 			updateScannerWithRecentInfo(JSON.parse(event.data));
-		};	
+		};
+
+		scannerEventSource.addEventListener('error', function(e) {
+		if (e.readyState == EventSource.CLOSED) {
+		    // Connection was closed.
+		    console.log("SSE-connection closed!");
+		  }
+		}, false);
 	}
 
 

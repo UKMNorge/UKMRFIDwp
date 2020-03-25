@@ -8,7 +8,9 @@ Version: 0.1
 Author URI: http://ukm-norge.no
 */
 
-use UKMNorge\RFID\POSTGRES;
+use UKMNorge\Database\Postgres\Postgres;
+
+require_once('UKM/Autoloader.php');
 
 if( !class_exists('UKMModul') ) {
 	require_once('class/UKMModul.class.php');
@@ -36,8 +38,7 @@ class UKMRFID extends UKMmodul {
 	public static function init($pl_id = null) {
 		self::setAction('home');
 		parent::init(null);
-		require_once( 'UKM/postgres.class.php');
-		POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
+		Postgres::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 	}
 	
 	/**

@@ -2,19 +2,17 @@
 
 namespace UKMNorge\RFID;
 
-use fylker;
 use monstringer_v2;
 use stdClass;
-use SQL;
 use lederPersonIntermediary;
+use UKMNorge\Database\SQL\Query;
+use UKMNorge\Geografi\Fylker;
 
 // Generer lister med fylker
-require_once('UKM/sql.class.php');
-require_once("UKM/fylker.class.php");
-require_once("UKM/monstringer.class.php");
+require_once("UKM/Autoloader.php");
 require_once(UKMRFID.'/class/lederPersonIntermediary.class.php');
 
-$fylker = fylker::getAllInkludertGjester();
+$fylker = Fylker::getAllInkludertGjester();
 \UKMRFID::addViewData('fylker', $fylker );
 
 // Mønstringsdata for festivalen:
@@ -41,7 +39,7 @@ foreach($fylker as $fylke) {
  * Henter ledere fra videresendingssystemet
 **/
 $monstring = monstringer_v2::land( get_site_option('season') );
-$leder_sql = new SQL("SELECT *
+$leder_sql = new Query("SELECT *
 					FROM `smartukm_videresending_ledere_ny` AS `leder`
 					LEFT JOIN `smartukm_place` AS `sort` ON (`sort`.`pl_id` = `leder`.`pl_id_from`)
 					WHERE `pl_id_to` = '#pl_to'
@@ -53,7 +51,7 @@ $leder_sql = new SQL("SELECT *
 					)
 				);
 $res = $leder_sql->run();
-while( $row = SQL::fetch( $res ) ) {
+while( $row = Query::fetch( $res ) ) {
 	$personListe[ $row['pl_fylke'] ][] = new lederPersonIntermediary( $row );
 }
 

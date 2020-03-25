@@ -11,7 +11,7 @@
 
 
 {% block content %}
-	{% for herd in herds if not (herd.getForeignId() matches '/^UKM-fylke-ledere-[\\d\\.]+$/') %}
+	{% for herd in herds|filter( herd => not (herd.getForeignId() matches '/^UKM-fylke-ledere-[\\d\\.]+$/') ) %}
 		<h1 style="margin-top: 2em;">{{ herd.getName() }}</h1>
 		{% if lederHerds[ herd.getForeignId() ] is defined %}
 			<h4>Ledere</h4>

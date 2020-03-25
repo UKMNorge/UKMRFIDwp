@@ -28,7 +28,7 @@
 			</thead>
 			
 			<tbody>
-				{% for herd in herds if herd.getForeignId() matches '/^UKM-fylke-[\\d\\.]+$/' %}
+				{% for herd in herds|filter( herd => herd.getForeignId() matches '/^UKM-fylke-[\\d\\.]+$/') %}
 					<tr>
 						<td>{{ herd.getName() }}</td>
 						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>
@@ -52,7 +52,7 @@
 			</thead>
 			
 			<tbody>
-				{% for herd in herds if herd.getForeignId() matches '/^UKM-fylke-ledere-[\\d\\.]+$/' %}
+				{% for herd in herds|filter( herd => herd.getForeignId() matches '/^UKM-fylke-ledere-[\\d\\.]+$/') %}
 					<tr>
 						<td>{{ herd.getName() }}</td>
 						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>
@@ -77,7 +77,7 @@
 			</thead>
 			
 			<tbody>
-				{% for herd in herds if not (herd.getForeignId() matches '/^UKM-fylke-[A-Za-z0-9-.]+$/') %}
+				{% for herd in herds|filter( herd => not (herd.getForeignId() matches '/^UKM-fylke-[A-Za-z0-9-.]+$/')) %}
 					<tr>
 						<td>{{ herd.getName() }}</td>
 						<td>{{ herd.getHerdMembersInAreaCount( area.getId() ) }}</td>

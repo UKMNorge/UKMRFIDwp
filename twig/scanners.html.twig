@@ -24,7 +24,7 @@
 		</thead>
 		
 		<tbody>
-			{% for scanner in scanners if scanner.isVerified() %}
+			{% for scanner in scanners|filter(scanner => scanner.isVerified()) %}
 				<tr>
 					<td>{{ scanner.getArea() }}: {{ scanner.getDirection() }}</td>
 					<td>{{ scanner.getName() }}</td>
@@ -52,7 +52,7 @@
 		</thead>
 			
 		<tbody>
-			{% for scanner in scanners if not scanner.isVerified() %}
+			{% for scanner in scanners|filter( scanner => not scanner.isVerified()) %}
 				<tr>
 					<td>{{ scanner.getGUID() }}</td>
 					<td>{{ scanner.getIp() }}</td>

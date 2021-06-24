@@ -8,17 +8,10 @@ Version: 0.1
 Author URI: http://ukm-norge.no
 */
 
-use UKMNorge\Database\Postgres\Postgres;
+use UKMNorge\RFID\POSTGRES as RFIDPOSTGRES;
 use UKMNorge\Wordpress\Modul;
 
 require_once('UKM/Autoloader.php');
-
-if(is_admin()) {
-	add_action('network_admin_menu', ['UKMRFID','meny']);
-	add_action('admin_menu', ['UKMRFID','meny']);
-
-	add_action('wp_ajax_RFID_ajax', ['UKMRFID', 'ajax']);
-}
 
 define('UKMRFID', dirname(__FILE__));
 define('UKMRFID_INCLUDE_PATH', 'UKM/RFID/');
@@ -27,6 +20,10 @@ define('UKMRFID_INCLUDE_PATH', 'UKM/RFID/');
 class UKMRFID extends Modul {
 	public static $monstring = null;
 	public static $til = null;
+
+	public static $action = 'dashboard';
+    public static $path_plugin = null;
+
 	
 	/**
 	 * Initier Videresending-objektet
@@ -35,10 +32,17 @@ class UKMRFID extends Modul {
 	public static function init($pl_id = null) {
 		self::setAction('home');
 		parent::init(null);
-		Postgres::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
+		RFIDPOSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 	}
 
-	public static function hook(){}
+	public static function hook(){
+		if(is_admin()) {
+			add_action('network_admin_menu', ['UKMRFID','meny']);
+			add_action('admin_menu', ['UKMRFID','meny']);
+		
+			add_action('wp_ajax_RFID_ajax', ['UKMRFID', 'ajax']);
+		}		
+	}
 	
 	/**
 	 * Generer admin-GUI
@@ -204,3 +208,6 @@ class UKMRFID extends Modul {
 		die();
 	}
 }
+
+UKMRFID::init(__DIR__);
+UKMRFID::hook();

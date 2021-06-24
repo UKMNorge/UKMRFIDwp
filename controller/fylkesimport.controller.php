@@ -1,19 +1,18 @@
 <?php
 
-namespace UKMNorge\RFID;
 
 use monstringer_v2;
 use stdClass;
 use lederPersonIntermediary;
 use UKMNorge\Database\SQL\Query;
 use UKMNorge\Geografi\Fylker;
+use UKMNorge\RFID\HerdColl;
 
 // Generer lister med fylker
 require_once("UKM/Autoloader.php");
-require_once(UKMRFID.'/class/lederPersonIntermediary.class.php');
 
 $fylker = Fylker::getAllInkludertGjester();
-\UKMRFID::addViewData('fylker', $fylker );
+UKMRFID::addViewData('fylker', $fylker );
 
 // Mønstringsdata for festivalen:
 $monstring = monstringer_v2::land(get_site_option('season'));
@@ -55,10 +54,8 @@ while( $row = Query::fetch( $res ) ) {
 	$personListe[ $row['pl_fylke'] ][] = new lederPersonIntermediary( $row );
 }
 
-\UKMRFID::addViewData('personListe', $personListe);
-\UKMRFID::addViewData('monstring', $monstring);
+UKMRFID::addViewData('personListe', $personListe);
+UKMRFID::addViewData('monstring', $monstring);
 
-require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 $herds = HerdColl::GetAllByName();
-
-\UKMRFID::addViewData('herds', $herds);
+UKMRFID::addViewData('herds', $herds);

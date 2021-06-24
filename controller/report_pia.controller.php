@@ -1,9 +1,7 @@
 <?php
-namespace UKMNorge\RFID;
-use Exception;
-	
-require_once(UKMRFID_INCLUDE_PATH .'area.collection.php');
-require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
+
+use UKMNorge\RFID\AreaColl;
+use UKMNorge\RFID\HerdColl;
 
 $herds = HerdColl::getAllByName();
 $lederHerds = [];
@@ -14,6 +12,6 @@ foreach( $herds as $herd ) {
 	}
 }
 
-\UKMRFID::addViewData('area', AreaColl::getById( $_GET['area'] ) );
-\UKMRFID::addViewData('herds', $herds);
-\UKMRFID::addViewData('lederHerds', $lederHerds);
+UKMRFID::addViewData('area', AreaColl::getById( $_GET['area'] ) );
+UKMRFID::addViewData('herds', $herds);
+UKMRFID::addViewData('lederHerds', $lederHerds);

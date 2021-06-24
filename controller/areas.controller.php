@@ -1,9 +1,8 @@
 <?php
 
-namespace UKMNorge\RFID;
-use Exception;
-
-require_once(UKMRFID_INCLUDE_PATH .'area.collection.php');
+use UKMNorge\RFID\Area;
+use UKMNorge\RFID\AreaColl;
+use UKMNorge\RFID\PersonColl;
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	switch( $_POST['action'] ) {
@@ -12,9 +11,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				Area::create( $_POST['name'], $_POST['capacity'] );
 			} catch( Exception $e ) {
 				if( $e->getCode() == 1 ) {
-					\UKMRFID::addMessage('error', 'Området finnes allerede!');
+					UKMRFID::addMessage('error', 'Området finnes allerede!');
 				} else {
-					\UKMRFID::addMessage('error', $e->getMessage());
+					UKMRFID::addMessage('error', $e->getMessage());
 				}
 			}
 			break;
@@ -22,5 +21,5 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 }
 	
 
-\UKMRFID::addViewData('areas', AreaColl::getAllByName() );
-\UKMRFID::addViewData('persons', PersonColl::getAllByName() );
+UKMRFID::addViewData('areas', AreaColl::getAllByName() );
+UKMRFID::addViewData('persons', PersonColl::getAllByName() );

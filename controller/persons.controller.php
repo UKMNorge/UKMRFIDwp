@@ -1,8 +1,5 @@
 <?php
 
-namespace UKMNorge\RFID;
-use Exception;
-	
-require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
+use UKMNorge\RFID\PersonColl;
 
-\UKMRFID::addViewData('persons', PersonColl::getAllByName() );
+UKMRFID::addViewData('persons', PersonColl::getAllByName() );

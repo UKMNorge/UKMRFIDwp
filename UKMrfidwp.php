@@ -9,12 +9,9 @@ Author URI: http://ukm-norge.no
 */
 
 use UKMNorge\Database\Postgres\Postgres;
+use UKMNorge\Wordpress\Modul;
 
 require_once('UKM/Autoloader.php');
-
-if( !class_exists('UKMModul') ) {
-	require_once('class/UKMModul.class.php');
-}
 
 if(is_admin()) {
 	add_action('network_admin_menu', ['UKMRFID','meny']);
@@ -27,7 +24,7 @@ define('UKMRFID', dirname(__FILE__));
 define('UKMRFID_INCLUDE_PATH', 'UKM/RFID/');
 
 
-class UKMRFID extends UKMmodul {
+class UKMRFID extends Modul {
 	public static $monstring = null;
 	public static $til = null;
 	

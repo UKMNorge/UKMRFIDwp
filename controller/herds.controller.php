@@ -1,9 +1,7 @@
 <?php
 
-namespace UKMNorge\RFID;
-use Exception;
-	
-require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
+use UKMNorge\RFID\Herd;
+use UKMNorge\RFID\HerdColl;
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	switch( $_POST['action'] ) {
@@ -12,9 +10,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				Herd::create( $_POST['name'], $_POST['foreign'] );
 			} catch( Exception $e ) {
 				if( $e->getCode() == 1 ) {
-					\UKMRFID::addMessage('error', 'Gruppen finnes allerede!');
+					UKMRFID::addMessage('error', 'Gruppen finnes allerede!');
 				} else {
-					\UKMRFID::addMessage('error', $e->getMessage());
+					UKMRFID::addMessage('error', $e->getMessage());
 				}
 			}
 			break;
@@ -22,4 +20,4 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 }
 	
 
-\UKMRFID::addViewData('groups', HerdColl::getAllByName() );
+UKMRFID::addViewData('groups', HerdColl::getAllByName() );

@@ -1,9 +1,9 @@
 <?php
 
-namespace UKMNorge\RFID;
-use Exception;
+use UKMNorge\RFID\Person;
+use UKMNorge\RFID\PersonColl;
+use UKMNorge\RFID\POSTGRES;
 
-require_once( 'UKM/postgres.class.php');
 POSTGRES::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 
 // Todo: Registrer person
@@ -16,16 +16,13 @@ $rfidValue = $_POST['rfidValue'];
 
 $person = null;
 
-
-require_once(UKMRFID_INCLUDE_PATH .'person.class.php');
-require_once(UKMRFID_INCLUDE_PATH .'person.collection.php');
 // Sjekk om personen finnes og skal oppdateres
 try {
 	$person = PersonColl::getByForeignId($foreign_id);
 }
 catch(Exception $e) {
 	// Only means that we didn't find a row
-	\UKMRFID::addResponseData('info', "Ignored an exception when getting by Foreign ID");
+	UKMRFID::addResponseData('info', "Ignored an exception when getting by Foreign ID");
 }	
 
 if( is_object($person) ) {
@@ -36,20 +33,19 @@ if( is_object($person) ) {
 	->setRFID($rfidValue);
 	$person->save();
 
-	\UKMRFID::addResponseData('success', true );
+	UKMRFID::addResponseData('success', true );
 	
 } else {
 	try {
 		Person::create( $person_fornavn, $person_etternavn, $personMobil, $rfidValue, $personGruppe, $foreign_id );
-		\UKMRFID::addResponseData('success', true );
+		UKMRFID::addResponseData('success', true );
 	}
 	catch(Exception $e) {
-		\UKMRFID::addResponseData('success', false );
-		\UKMRFID::addResponseData('message', "Create-feil: " .$e->getMessage());
+		UKMRFID::addResponseData('success', false );
+		UKMRFID::addResponseData('message', "Create-feil: " .$e->getMessage());
 	}
 }
 
-\UKMRFID::addResponseData('gruppeid', $personGruppe);
-\UKMRFID::addResponseData('ukm_person_id', $foreign_id);
-\UKMRFID::addResponseData('rfid', $rfidValue);
-	
+UKMRFID::addResponseData('gruppeid', $personGruppe);
+UKMRFID::addResponseData('ukm_person_id', $foreign_id);
+UKMRFID::addResponseData('rfid', $rfidValue);

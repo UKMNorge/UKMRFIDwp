@@ -1,12 +1,6 @@
 <?php
 
-namespace UKMNorge\RFID;
-
-use fylker;
-use monstringer_v2;
-use stdClass;
-use PHPExcel\PHPExcel;
-use PHPExcel_IOFactory;
+use UKMNorge\RFID\HerdColl;
 
 $mobileColumn = "C";
 $firstNameColumn = "A";
@@ -24,7 +18,7 @@ try {
 		// Global personliste 
 		$personListe = array();
 		// Pakk ut Excel-fil
-		$excelDoc = PHPExcel_IOFactory::load($_FILES['excelImportFile']['tmp_name']);
+		$excelDoc = PHPEXcelIOFactory::load($_FILES['excelImportFile']['tmp_name']);
 		$worksheet = $excelDoc->getSheet(0);
 		// First row is headers
 		$row = 2;
@@ -43,16 +37,16 @@ try {
 			$row++;
 		}
 		
-		\UKMRFID::addViewData('filnavn', $_FILES['excelImportFile']['name']);
-		\UKMRFID::addViewData('random', hash('md5', $_FILES['excelImportFile']['tmp_name']));
-		\UKMRFID::addViewData('personListe', $personListe);	
+		UKMRFID::addViewData('filnavn', $_FILES['excelImportFile']['name']);
+		UKMRFID::addViewData('random', hash('md5', $_FILES['excelImportFile']['tmp_name']));
+		UKMRFID::addViewData('personListe', $personListe);	
 	}
 }
 catch (Exception $e) {
-	\UKMRFID::addViewData('error', array('level'=>'danger', 'message'=>"Klarte ikke å lese filen du lastet opp!"));
+	UKMRFID::addViewData('error', array('level'=>'danger', 'message'=>"Klarte ikke å lese filen du lastet opp!"));
 }
 
 require_once(UKMRFID_INCLUDE_PATH .'herd.collection.php');
 $herds = HerdColl::GetAllByName();
 
-\UKMRFID::addViewData('herds', $herds);
+UKMRFID::addViewData('herds', $herds);

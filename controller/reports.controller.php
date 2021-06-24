@@ -1,8 +1,5 @@
 <?php
 
-namespace UKMNorge\RFID;
-use Exception;
-	
-require_once(UKMRFID_INCLUDE_PATH .'area.collection.php');
+use UKMNorge\RFID\AreaColl;
 
-\UKMRFID::addViewData('areas', AreaColl::getAllByName() );
+UKMRFID::addViewData('areas', AreaColl::getAllByName() );

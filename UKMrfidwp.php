@@ -37,6 +37,8 @@ class UKMRFID extends Modul {
 		parent::init(null);
 		Postgres::connect( PG_RFID_USER, PG_RFID_PASS, PG_RFID_DB );
 	}
+
+	public static function hook(){}
 	
 	/**
 	 * Generer admin-GUI
